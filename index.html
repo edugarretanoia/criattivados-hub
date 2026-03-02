@@ -3,163 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>criaTTivados — Ferramentas de Marca Pessoal</title>
-  <meta name="description" content="Ferramentas gratuitas para descobrir, construir e comunicar sua marca pessoal. Quiz de personalidade, GPTs especializados e mais.">
+  <title>criaTTivados — Marca Pessoal com Inteligencia</title>
+  <meta name="description" content="Ecossistema de ferramentas digitais para descobrir, construir e comunicar sua marca pessoal. Quizzes, briefings, GPTs e mais.">
 
-  <!-- OG Tags -->
-  <meta property="og:title" content="criaTTivados — Ferramentas de Marca Pessoal">
-  <meta property="og:description" content="Ferramentas gratuitas para descobrir, construir e comunicar sua marca pessoal.">
+  <meta property="og:title" content="criaTTivados — Marca Pessoal com Inteligencia">
+  <meta property="og:description" content="Ecossistema de ferramentas digitais para marca pessoal. Quizzes, briefings, GPTs e mais.">
   <meta property="og:url" content="https://criattivados.com.br">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
-
-  <!-- Design System -->
   <link rel="stylesheet" href="css/design-system.css">
   <style>
-    /* Hub-specific styles — tokens only */
+    /* Navigation */
+    .hub-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-4) var(--space-6);
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: var(--z-sticky);
+      background: var(--surface-glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .hub-nav .logo {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      letter-spacing: var(--tracking-wide);
+      color: var(--text-primary);
+    }
+    .hub-nav .logo span { color: var(--accent); }
+    .hub-nav .nav-links {
+      display: flex;
+      gap: var(--space-6);
+      align-items: center;
+    }
+    .hub-nav .nav-links a {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      transition: color 0.2s;
+    }
+    .hub-nav .nav-links a:hover { color: var(--text-primary); }
+
+    /* Hero */
     .hub-hero {
-      min-height: 60vh;
+      min-height: 90vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: var(--space-12) var(--space-4);
+      padding: var(--space-16) var(--space-4) var(--space-12);
       position: relative;
       z-index: var(--z-raised);
     }
-
+    .hub-hero .tagline {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+      margin-bottom: var(--space-4);
+    }
     .hub-hero h1 {
       font-family: var(--font-display);
       font-size: var(--text-7xl);
       letter-spacing: var(--tracking-wide);
       line-height: var(--leading-tight);
       color: var(--text-primary);
-      margin-bottom: var(--space-4);
+      margin-bottom: var(--space-6);
     }
-
-    .hub-hero h1 span {
-      color: var(--accent);
-    }
-
+    .hub-hero h1 span { color: var(--accent); }
     .hub-hero .subtitle {
       font-size: var(--text-xl);
       color: var(--text-secondary);
-      max-width: 600px;
+      max-width: 640px;
       line-height: var(--leading-relaxed);
       margin-bottom: var(--space-8);
     }
-
-    .hub-hero .tagline {
-      font-size: var(--text-sm);
-      color: var(--text-muted);
-      letter-spacing: var(--tracking-wider);
-      text-transform: uppercase;
-      margin-bottom: var(--space-2);
+    .hero-ctas {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    /* Artifacts Grid */
-    .artifacts-section {
-      padding: var(--space-12) var(--space-4);
-      max-width: 1200px;
+    /* Pillars */
+    .pillars-section {
+      padding: var(--space-16) var(--space-4);
+      max-width: 1000px;
       margin: 0 auto;
       position: relative;
       z-index: var(--z-raised);
     }
-
-    .artifacts-section h2 {
+    .pillars-section h2 {
       font-family: var(--font-display);
       font-size: var(--text-4xl);
       letter-spacing: var(--tracking-wide);
       color: var(--text-primary);
       text-align: center;
-      margin-bottom: var(--space-2);
-    }
-
-    .artifacts-section .section-desc {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: var(--text-md);
       margin-bottom: var(--space-10);
     }
-
-    .artifacts-grid {
+    .pillars-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: var(--space-6);
     }
-
-    .artifact-card {
-      background: var(--surface-raised);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: var(--space-8);
-      transition: all 0.3s var(--ease-default);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
+    .pillar {
+      text-align: center;
+      padding: var(--space-8) var(--space-4);
     }
-
-    .artifact-card:hover {
-      border-color: var(--accent);
-      box-shadow: var(--shadow-glow);
-      transform: translateY(-2px);
+    .pillar .pillar-icon {
+      font-size: var(--text-5xl);
+      margin-bottom: var(--space-4);
     }
-
-    .artifact-card .card-icon {
-      font-size: var(--text-4xl);
-    }
-
-    .artifact-card h3 {
+    .pillar h3 {
       font-family: var(--font-display);
       font-size: var(--text-2xl);
       letter-spacing: var(--tracking-wide);
       color: var(--text-primary);
+      margin-bottom: var(--space-3);
     }
-
-    .artifact-card p {
+    .pillar p {
       color: var(--text-secondary);
       font-size: var(--text-sm);
       line-height: var(--leading-relaxed);
-      flex: 1;
     }
 
-    .artifact-card .card-badge {
-      display: inline-block;
-      font-size: var(--text-xs);
-      color: var(--accent);
-      background: var(--accent-subtle);
-      padding: var(--space-1) var(--space-3);
-      border-radius: var(--radius-full);
-      width: fit-content;
-      font-weight: var(--weight-semibold);
+    /* Featured */
+    .featured-section {
+      padding: var(--space-12) var(--space-4);
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: var(--z-raised);
+    }
+    .featured-card {
+      background: var(--surface-raised);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-10);
+      display: flex;
+      gap: var(--space-8);
+      align-items: center;
+    }
+    .featured-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-glow);
+    }
+    .featured-card .featured-icon {
+      font-size: 5rem;
+      flex-shrink: 0;
+    }
+    .featured-card h3 {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
       letter-spacing: var(--tracking-wide);
-      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: var(--space-3);
+    }
+    .featured-card p {
+      color: var(--text-secondary);
+      font-size: var(--text-md);
+      line-height: var(--leading-relaxed);
+      margin-bottom: var(--space-6);
     }
 
-    .artifact-card .card-badge.coming-soon {
-      color: var(--text-muted);
-      background: var(--surface-overlay);
-    }
-
-    .artifact-card .btn {
-      margin-top: auto;
-    }
-
-    /* About Section */
+    /* About */
     .about-section {
       padding: var(--space-16) var(--space-4);
-      max-width: 800px;
+      max-width: 700px;
       margin: 0 auto;
       text-align: center;
       position: relative;
       z-index: var(--z-raised);
     }
-
     .about-section h2 {
       font-family: var(--font-display);
       font-size: var(--text-4xl);
@@ -167,7 +188,6 @@
       color: var(--text-primary);
       margin-bottom: var(--space-6);
     }
-
     .about-section p {
       color: var(--text-secondary);
       font-size: var(--text-lg);
@@ -185,94 +205,94 @@
       position: relative;
       z-index: var(--z-raised);
     }
-
-    .hub-footer a {
-      color: var(--text-secondary);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-
-    .hub-footer a:hover {
-      color: var(--accent);
-    }
+    .hub-footer a { color: var(--text-secondary); text-decoration: underline; text-underline-offset: 2px; }
+    .hub-footer a:hover { color: var(--accent); }
+    .footer-links { display: flex; justify-content: center; gap: var(--space-6); margin-top: var(--space-2); }
 
     /* Responsive */
-    @media (max-width: 640px) {
-      .hub-hero { min-height: 50vh; padding: var(--space-8) var(--space-4); }
-      .artifacts-grid { grid-template-columns: 1fr; }
+    @media (max-width: 768px) {
+      .hub-nav .nav-links { gap: var(--space-4); }
+      .hub-hero { min-height: 70vh; padding-top: var(--space-20); }
+      .pillars-grid { grid-template-columns: 1fr; }
+      .featured-card { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body data-biome="dark">
 
-<!-- Mesh Gradient Background -->
 <div class="ds-mesh-bg"><div class="g g1"></div><div class="g g2"></div><div class="g g3"></div><div class="g g4"></div><div class="g g5"></div></div>
+
+<!-- Nav -->
+<nav class="hub-nav">
+  <div class="logo">cria<span>TT</span>ivados</div>
+  <div class="nav-links">
+    <a href="/store/">Store</a>
+    <a href="/quiz/">Quiz</a>
+    <a href="#sobre">Sobre</a>
+    <a href="/store/" class="btn btn-accent btn-sm">Explorar</a>
+  </div>
+</nav>
 
 <!-- Hero -->
 <header class="hub-hero">
-  <p class="tagline">Ferramentas de Marca Pessoal</p>
-  <h1>cria<span>TT</span>ivados</h1>
-  <p class="subtitle">Descubra, construa e comunique sua marca pessoal com ferramentas gratuitas criadas por quem vive branding todos os dias.</p>
-  <a href="#ferramentas" class="btn btn-accent btn-lg">Explorar Ferramentas</a>
+  <p class="tagline">Ecossistema de Marca Pessoal</p>
+  <h1>Sua marca.<br>Suas <span>ferramentas</span>.</h1>
+  <p class="subtitle">Quizzes, briefings, GPTs e ferramentas digitais para descobrir quem voce e, construir seu posicionamento e comunicar com autenticidade.</p>
+  <div class="hero-ctas">
+    <a href="/quiz/" class="btn btn-accent btn-lg">Fazer o Quiz Gratis</a>
+    <a href="/store/" class="btn btn-glass btn-lg">Ver Todos os Produtos</a>
+  </div>
 </header>
 
-<!-- Artifacts Grid -->
-<section id="ferramentas" class="artifacts-section">
-  <h2>Ferramentas</h2>
-  <p class="section-desc">Cada ferramenta resolve um pedaço do quebra-cabeça da sua marca pessoal.</p>
+<!-- 3 Pillars -->
+<section class="pillars-section">
+  <h2>Como funciona</h2>
+  <div class="pillars-grid">
+    <div class="pillar">
+      <div class="pillar-icon">🔍</div>
+      <h3>Descubra</h3>
+      <p>Quizzes e diagnosticos que revelam sua personalidade, arquetipos e estilo de comunicacao.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">🏗️</div>
+      <h3>Construa</h3>
+      <p>Briefings e ferramentas que transformam autoconhecimento em estrategia de marca.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon">📣</div>
+      <h3>Comunique</h3>
+      <p>GPTs e templates que ajudam voce a criar conteudo alinhado com sua marca pessoal.</p>
+    </div>
+  </div>
+</section>
 
-  <div class="artifacts-grid">
-
-    <!-- MyBrandPersona -->
-    <div class="artifact-card">
-      <div class="card-icon">🧬</div>
-      <span class="card-badge">Gratuito</span>
+<!-- Featured Product -->
+<section class="featured-section">
+  <div class="featured-card">
+    <div class="featured-icon">🧬</div>
+    <div>
       <h3>MyBrandPersona</h3>
-      <p>Quiz de 5 minutos que revela sua personalidade de marca usando 7 sistemas de analise: MBTI, OCEAN, arquetipos, emocoes, inteligencias e mais. Resultado completo e imediato.</p>
-      <a href="https://mybrandpersona.vercel.app" class="btn btn-accent btn-block" target="_blank" rel="noopener">Fazer o Quiz</a>
+      <p>Quiz gratuito de 5 minutos que analisa sua personalidade com 7 sistemas diferentes: MBTI, OCEAN, arquetipos, emocoes, inteligencias multiplas e mais. Resultado completo e imediato.</p>
+      <a href="/quiz/" class="btn btn-accent">Fazer o Quiz Gratis</a>
     </div>
-
-    <!-- branDesire -->
-    <div class="artifact-card">
-      <div class="card-icon">🎯</div>
-      <span class="card-badge coming-soon">Em Breve</span>
-      <h3>branDesire</h3>
-      <p>Briefing inteligente de 20 campos que gera o DNA da sua marca. De identidade a estrategia, tudo o que um consultor precisa saber — em um formulario guiado.</p>
-      <span class="btn btn-ghost btn-block" style="pointer-events:none;opacity:0.5">Em desenvolvimento</span>
-    </div>
-
-    <!-- GPT MyBrandPersona -->
-    <div class="artifact-card">
-      <div class="card-icon">🤖</div>
-      <span class="card-badge">GPT</span>
-      <h3>MyBrandPersona GPT</h3>
-      <p>Versao conversacional do quiz. Responda no chat e receba uma analise aprofundada da sua personalidade de marca com recomendacoes personalizadas.</p>
-      <a href="https://chatgpt.com" class="btn btn-glass btn-block" target="_blank" rel="noopener">Abrir no ChatGPT</a>
-    </div>
-
-    <!-- GPT branDesire -->
-    <div class="artifact-card">
-      <div class="card-icon">💡</div>
-      <span class="card-badge">GPT</span>
-      <h3>branDesire GPT</h3>
-      <p>Assistente que guia voce pelo briefing de marca passo a passo, fazendo as perguntas certas e organizando suas respostas em um documento estrategico.</p>
-      <a href="https://chatgpt.com" class="btn btn-glass btn-block" target="_blank" rel="noopener">Abrir no ChatGPT</a>
-    </div>
-
   </div>
 </section>
 
 <!-- About -->
-<section class="about-section">
+<section id="sobre" class="about-section">
   <h2>Sobre</h2>
-  <p>criaTTivados nasceu da pratica de consultoria em marca pessoal. Cada ferramenta aqui foi construida para resolver problemas reais de posicionamento, diferenciacao e narrativa.</p>
-  <p>Criado por <strong>Eduardo Vale</strong> — consultor de marca pessoal, vibe coder e fundador do ecossistema criaTTivados.</p>
+  <p>criaTTivados nasceu da pratica de consultoria em marca pessoal. Cada ferramenta resolve um problema real: do autoconhecimento ao posicionamento, da diferenciacao a narrativa.</p>
+  <p>Criado por <strong>Eduardo Vale</strong> — consultor de marca pessoal e fundador do ecossistema criaTTivados.</p>
 </section>
 
 <!-- Footer -->
 <footer class="hub-footer">
   <p>&copy; 2026 criaTTivados. Todos os direitos reservados.</p>
-  <p><a href="privacidade/">Politica de Privacidade</a></p>
+  <div class="footer-links">
+    <a href="/store/">Store</a>
+    <a href="/quiz/">Quiz</a>
+    <a href="/privacidade/">Privacidade</a>
+  </div>
 </footer>
 
 </body>

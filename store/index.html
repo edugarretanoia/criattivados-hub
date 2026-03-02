@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store — criaTTivados</title>
+  <meta name="description" content="Produtos digitais de marca pessoal: quizzes, briefings, GPTs, ferramentas e mais. Gratuitos e premium.">
+
+  <meta property="og:title" content="Store — criaTTivados">
+  <meta property="og:description" content="Produtos digitais de marca pessoal: quizzes, briefings, GPTs e mais.">
+  <meta property="og:url" content="https://criattivados.com.br/store">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <style>
+    .store-header {
+      padding: var(--space-12) var(--space-4) var(--space-8);
+      text-align: center;
+      position: relative;
+      z-index: var(--z-raised);
+    }
+    .store-header .back-link {
+      display: inline-block;
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+      margin-bottom: var(--space-6);
+    }
+    .store-header .back-link:hover { color: var(--accent); }
+    .store-header h1 {
+      font-family: var(--font-display);
+      font-size: var(--text-6xl);
+      letter-spacing: var(--tracking-wide);
+      color: var(--text-primary);
+      margin-bottom: var(--space-3);
+    }
+    .store-header p {
+      color: var(--text-secondary);
+      font-size: var(--text-lg);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Filters */
+    .store-filters {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: var(--space-4);
+      position: relative;
+      z-index: var(--z-raised);
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      background: var(--surface-raised);
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      transition: all 0.2s var(--ease-default);
+    }
+    .filter-btn:hover, .filter-btn.active {
+      color: var(--text-primary);
+      border-color: var(--accent);
+      background: var(--accent-subtle);
+    }
+
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: var(--space-6);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-6) var(--space-4) var(--space-16);
+      position: relative;
+      z-index: var(--z-raised);
+    }
+
+    .product-card {
+      background: var(--surface-raised);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.3s var(--ease-default);
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-2px);
+    }
+
+    .product-card .card-visual {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      background: var(--gradient-card);
+    }
+
+    .product-card .card-content {
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      flex: 1;
+    }
+
+    .product-card .card-tags {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: var(--text-xs);
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-full);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+    }
+    .tag-free { color: var(--feedback-success); background: rgba(74, 222, 128, 0.12); }
+    .tag-premium { color: var(--feedback-warning); background: rgba(234, 179, 8, 0.12); }
+    .tag-gpt { color: var(--feedback-info); background: rgba(96, 165, 250, 0.12); }
+    .tag-quiz { color: var(--accent); background: var(--accent-subtle); }
+    .tag-tool { color: #c084fc; background: rgba(192, 132, 252, 0.12); }
+    .tag-soon { color: var(--text-muted); background: var(--surface-overlay); }
+
+    .product-card h3 {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      letter-spacing: var(--tracking-wide);
+      color: var(--text-primary);
+    }
+
+    .product-card .card-desc {
+      color: var(--text-secondary);
+      font-size: var(--text-sm);
+      line-height: var(--leading-relaxed);
+      flex: 1;
+    }
+
+    .product-card .card-price {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      color: var(--text-primary);
+      letter-spacing: var(--tracking-wide);
+    }
+    .product-card .card-price span {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      letter-spacing: var(--tracking-normal);
+      text-transform: none;
+    }
+
+    .product-card .btn { margin-top: auto; }
+
+    /* Footer */
+    .store-footer {
+      padding: var(--space-8) var(--space-4);
+      text-align: center;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: var(--text-xs);
+      position: relative;
+      z-index: var(--z-raised);
+    }
+    .store-footer a { color: var(--text-secondary); text-decoration: underline; }
+    .store-footer a:hover { color: var(--accent); }
+
+    @media (max-width: 640px) {
+      .products-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-biome="dark">
+
+<div class="ds-mesh-bg"><div class="g g1"></div><div class="g g2"></div><div class="g g3"></div><div class="g g4"></div><div class="g g5"></div></div>
+
+<header class="store-header">
+  <a href="/" class="back-link">&larr; criaTTivados</a>
+  <h1>Store</h1>
+  <p>Produtos digitais para descobrir, construir e comunicar sua marca pessoal.</p>
+</header>
+
+<!-- Filters -->
+<nav class="store-filters">
+  <button class="filter-btn active" data-filter="all">Todos</button>
+  <button class="filter-btn" data-filter="free">Gratuitos</button>
+  <button class="filter-btn" data-filter="premium">Premium</button>
+  <button class="filter-btn" data-filter="quiz">Quizzes</button>
+  <button class="filter-btn" data-filter="gpt">GPTs</button>
+  <button class="filter-btn" data-filter="tool">Ferramentas</button>
+</nav>
+
+<!-- Products -->
+<main class="products-grid">
+
+  <!-- MyBrandPersona Quiz -->
+  <article class="product-card" data-tags="free quiz">
+    <div class="card-visual">🧬</div>
+    <div class="card-content">
+      <div class="card-tags">
+        <span class="tag tag-free">Gratuito</span>
+        <span class="tag tag-quiz">Quiz</span>
+      </div>
+      <h3>MyBrandPersona</h3>
+      <p class="card-desc">Quiz de 5 minutos com 7 sistemas de analise. Descubra seu arquetipo, MBTI, estilo de comunicacao e estrategia criativa.</p>
+      <div class="card-price">Gratis</div>
+      <a href="/quiz/" class="btn btn-accent btn-block">Fazer o Quiz</a>
+    </div>
+  </article>
+
+  <!-- MyBrandPersona GPT -->
+  <article class="product-card" data-tags="free gpt">
+    <div class="card-visual">🤖</div>
+    <div class="card-content">
+      <div class="card-tags">
+        <span class="tag tag-free">Gratuito</span>
+        <span class="tag tag-gpt">GPT</span>
+      </div>
+      <h3>MyBrandPersona GPT</h3>
+      <p class="card-desc">Versao conversacional do quiz. Converse com a IA e receba uma analise aprofundada da sua personalidade de marca.</p>
+      <div class="card-price">Gratis <span>(requer ChatGPT Plus)</span></div>
+      <a href="https://chatgpt.com" class="btn btn-glass btn-block" target="_blank" rel="noopener">Abrir no ChatGPT</a>
+    </div>
+  </article>
+
+  <!-- branDesire -->
+  <article class="product-card" data-tags="free tool">
+    <div class="card-visual">🎯</div>
+    <div class="card-content">
+      <div class="card-tags">
+        <span class="tag tag-soon">Em breve</span>
+        <span class="tag tag-tool">Ferramenta</span>
+      </div>
+      <h3>branDesire</h3>
+      <p class="card-desc">Briefing inteligente de 20 campos que gera o DNA da sua marca. De identidade a estrategia, tudo em um formulario guiado.</p>
+      <div class="card-price">Gratis</div>
+      <span class="btn btn-ghost btn-block" style="pointer-events:none;opacity:0.5">Em desenvolvimento</span>
+    </div>
+  </article>
+
+  <!-- branDesire GPT -->
+  <article class="product-card" data-tags="free gpt">
+    <div class="card-visual">💡</div>
+    <div class="card-content">
+      <div class="card-tags">
+        <span class="tag tag-free">Gratuito</span>
+        <span class="tag tag-gpt">GPT</span>
+      </div>
+      <h3>branDesire GPT</h3>
+      <p class="card-desc">Assistente que guia voce pelo briefing de marca, fazendo as perguntas certas e organizando tudo em um documento estrategico.</p>
+      <div class="card-price">Gratis <span>(requer ChatGPT Plus)</span></div>
+      <a href="https://chatgpt.com" class="btn btn-glass btn-block" target="_blank" rel="noopener">Abrir no ChatGPT</a>
+    </div>
+  </article>
+
+</main>
+
+<footer class="store-footer">
+  <p>&copy; 2026 criaTTivados &middot; <a href="/privacidade/">Privacidade</a></p>
+</footer>
+
+<script>
+  // Simple filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.product-card').forEach(card => {
+        if (filter === 'all' || card.dataset.tags.includes(filter)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
