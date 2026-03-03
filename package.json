@@ -2,6 +2,7 @@
   "name": "criattivados-hub",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "criaTTivados Hub — Plataforma multi-produto de produtos digitais",
   "scripts": {
     "dev": "vercel dev",
