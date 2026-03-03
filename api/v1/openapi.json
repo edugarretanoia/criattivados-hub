@@ -1,0 +1,75 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "criaTTivados GPT License API",
+    "description": "API para validação e uso de licenças de GPTs criaTTivados. O GPT deve chamar gpt-action a cada interação para verificar se o token do usuário é válido.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://criattivados.com.br"
+    }
+  ],
+  "paths": {
+    "/api/v1/gpt-action/{gptId}": {
+      "post": {
+        "operationId": "verifyAccess",
+        "summary": "Verificar acesso do usuário ao GPT",
+        "description": "Chamado a cada interação do GPT para verificar se o token do usuário é válido. Se o usuário não forneceu token, peça que compre em criattivados.com.br/store",
+        "parameters": [
+          {
+            "name": "gptId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Slug do GPT (ex: storytelling)"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["token"],
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "description": "Token de licença do usuário (ex: STO-a3f7b2c1e9d4)"
+                  },
+                  "action": {
+                    "type": "string",
+                    "description": "Tipo de ação sendo executada"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acesso autorizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "authorized": { "type": "boolean" },
+                    "product": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido ou expirado"
+          },
+          "403": {
+            "description": "Token não válido para este GPT"
+          }
+        }
+      }
+    }
+  }
+}
