@@ -1,8 +1,6 @@
-import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 import crypto from 'crypto';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_KEY
@@ -19,6 +17,22 @@ async function buffer(readable) {
     chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
   }
   return Buffer.concat(chunks);
+}
+
+function verifyStripeSignature(payload, sig, secret) {
+  const elements = sig.split(',');
+  const timestamp = elements.find(e => e.startsWith('t='))?.split('=')[1];
+  const signatures = elements.filter(e => e.startsWith('v1=')).map(e => e.split('=')[1]);
+
+  if (!timestamp || !signatures.length) return false;
+
+  const signedPayload = `${timestamp}.${payload}`;
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(signedPayload)
+    .digest('hex');
+
+  return signatures.some(s => crypto.timingSafeEqual(Buffer.from(s), Buffer.from(expected)));
 }
 
 function generateToken(prefix) {
@@ -56,39 +70,28 @@ async function handleCheckoutCompleted(session) {
 }
 
 async function routeDelivery(deliveryType, context) {
-  // For now, all delivery types generate a token
-  // Brevo email integration will be added in P1
-  // The token is stored in the license and will be sent via email
-
   switch (deliveryType) {
     case 'gpt_action':
-      // Token-based: user pastes token in GPT chat
       console.log(`[delivery:gpt_action] Token ${context.token} for ${context.email}`);
       break;
     case 'gpt_link':
-      // Send GPT link via email
       console.log(`[delivery:gpt_link] Link for ${context.email}`);
       break;
     case 'download':
-      // Generate signed URL and send via email
       console.log(`[delivery:download] File for ${context.email}`);
       break;
     case 'access_token':
-      // Token for app/quiz access
       console.log(`[delivery:access_token] Token ${context.token} for ${context.email}`);
       break;
     case 'subscription':
-      // Recurring access
       console.log(`[delivery:subscription] Sub for ${context.email}`);
       break;
     case 'external_url':
-      // Redirect URL via email
       console.log(`[delivery:external_url] URL for ${context.email}`);
       break;
     default:
       console.log(`[delivery:unknown] Type ${deliveryType} for ${context.email}`);
   }
-
   // TODO P1: Brevo API integration for email delivery
 }
 
@@ -96,7 +99,6 @@ async function handleChargeRefunded(charge) {
   const sessionId = charge.payment_intent;
   if (!sessionId) return;
 
-  // Revoke all licenses from this payment
   const { data: licenses } = await supabase
     .from('licenses')
     .select('id')
@@ -115,30 +117,34 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const buf = await buffer(req);
-  const sig = req.headers['stripe-signature'];
-
-  let event;
   try {
-    event = stripe.webhooks.constructEvent(buf, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    const buf = await buffer(req);
+    const sig = req.headers['stripe-signature'];
+    const payload = buf.toString('utf8');
+
+    if (!verifyStripeSignature(payload, sig, process.env.STRIPE_WEBHOOK_SECRET)) {
+      console.error('Webhook signature verification failed');
+      return res.status(400).json({ error: 'Invalid signature' });
+    }
+
+    const event = JSON.parse(payload);
+
+    switch (event.type) {
+      case 'checkout.session.completed':
+        await handleCheckoutCompleted(event.data.object);
+        break;
+      case 'charge.refunded':
+        await handleChargeRefunded(event.data.object);
+        break;
+      case 'customer.subscription.deleted':
+        break;
+      default:
+        console.log(`Unhandled event: ${event.type}`);
+    }
+
+    return res.status(200).json({ received: true });
   } catch (err) {
-    console.error('Webhook signature verification failed:', err.message);
-    return res.status(400).json({ error: 'Invalid signature' });
+    console.error('Webhook error:', err);
+    return res.status(500).json({ error: 'Webhook processing failed', message: err.message });
   }
-
-  switch (event.type) {
-    case 'checkout.session.completed':
-      await handleCheckoutCompleted(event.data.object);
-      break;
-    case 'charge.refunded':
-      await handleChargeRefunded(event.data.object);
-      break;
-    case 'customer.subscription.deleted':
-      // Handle subscription cancellation
-      break;
-    default:
-      console.log(`Unhandled event: ${event.type}`);
-  }
-
-  return res.status(200).json({ received: true });
 }
