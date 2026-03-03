@@ -1,7 +1,5 @@
-import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_KEY
@@ -48,27 +46,34 @@ export default async function handler(req, res) {
 
     const baseUrl = 'https://criattivados.com.br';
 
-    const sessionParams = {
-      payment_method_types: ['card'],
-      line_items: [{
-        price: product.stripe_price_id,
-        quantity: 1
-      }],
-      mode: product.billing_type === 'recurring' ? 'subscription' : 'payment',
-      success_url: `${baseUrl}/store/obrigado/?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/store/${product.slug}/`,
-      metadata: {
-        product_id: product.id,
-        product_slug: product.slug,
-        delivery_type: product.delivery_type
-      }
-    };
-
+    const params = new URLSearchParams();
+    params.append('payment_method_types[]', 'card');
+    params.append('line_items[0][price]', product.stripe_price_id);
+    params.append('line_items[0][quantity]', '1');
+    params.append('mode', product.billing_type === 'recurring' ? 'subscription' : 'payment');
+    params.append('success_url', `${baseUrl}/store/obrigado/?session_id={CHECKOUT_SESSION_ID}`);
+    params.append('cancel_url', `${baseUrl}/store/${product.slug}/`);
+    params.append('metadata[product_id]', product.id);
+    params.append('metadata[product_slug]', product.slug);
+    params.append('metadata[delivery_type]', product.delivery_type);
     if (customer_email) {
-      sessionParams.customer_email = customer_email;
+      params.append('customer_email', customer_email);
     }
 
-    const session = await stripe.checkout.sessions.create(sessionParams);
+    const stripeRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.STRIPE_SECRET_KEY}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: params.toString()
+    });
+
+    const session = await stripeRes.json();
+
+    if (!stripeRes.ok) {
+      return res.status(500).json({ error: 'Stripe error', detail: session.error?.message });
+    }
 
     return res.status(200).json({ checkout_url: session.url });
   } catch (err) {
