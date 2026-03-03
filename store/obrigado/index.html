@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obrigado! — criaTTivados Store</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F3293B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>">
+  <link rel="stylesheet" href="../../css/design-system.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--surface-base); color: var(--text-primary); }
+
+    .thankyou-layout {
+      max-width: 640px; margin: 0 auto;
+      padding: var(--space-3xl) var(--space-md);
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+    }
+    .thankyou-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: var(--accent); color: white;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: var(--space-xl);
+    }
+    .thankyou-icon .icon { width: 40px; height: 40px; }
+    .thankyou-title {
+      font-family: var(--font-display); font-size: var(--text-3xl);
+      letter-spacing: var(--tracking-wide); margin-bottom: var(--space-md);
+    }
+    .thankyou-desc {
+      color: var(--text-secondary); font-size: var(--text-md);
+      line-height: var(--leading-relaxed); margin-bottom: var(--space-xl);
+    }
+    .thankyou-steps {
+      text-align: left; width: 100%;
+      background: var(--surface-raised); border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+    }
+    .thankyou-steps h2 {
+      font-size: var(--text-lg); margin-bottom: var(--space-md);
+    }
+    .thankyou-step {
+      display: flex; gap: var(--space-md); align-items: flex-start;
+      margin-bottom: var(--space-md);
+    }
+    .thankyou-step:last-child { margin-bottom: 0; }
+    .thankyou-step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent); color: white; font-weight: var(--weight-bold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--text-xs); flex-shrink: 0;
+    }
+    .thankyou-step p { font-size: var(--text-sm); color: var(--text-secondary); }
+    .thankyou-step strong { color: var(--text-primary); }
+
+    .thankyou-links { display: flex; gap: var(--space-md); flex-wrap: wrap; justify-content: center; }
+    .thankyou-footer {
+      margin-top: var(--space-3xl); padding-top: var(--space-xl);
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-muted); font-size: var(--text-xs);
+    }
+  </style>
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+    <symbol id="icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  </svg>
+</head>
+<body data-biome="dark">
+
+<div class="ds-mesh-bg"><div class="g g1"></div><div class="g g2"></div><div class="g g3"></div><div class="g g4"></div><div class="g g5"></div></div>
+
+<div class="thankyou-layout">
+
+  <div class="thankyou-icon">
+    <svg class="icon"><use href="#icon-check"/></svg>
+  </div>
+
+  <h1 class="thankyou-title">Compra confirmada!</h1>
+  <p class="thankyou-desc">
+    Obrigado pela sua compra. Voce recebera um email com as instrucoes de acesso em instantes.
+  </p>
+
+  <div class="thankyou-steps">
+    <h2>Proximos passos</h2>
+    <div class="thankyou-step">
+      <div class="thankyou-step-num">1</div>
+      <p><strong>Verifique seu email</strong> — enviamos um email com seu token de acesso. Cheque spam se nao encontrar.</p>
+    </div>
+    <div class="thankyou-step">
+      <div class="thankyou-step-num">2</div>
+      <p><strong>Copie o token</strong> — ele parece com algo assim: <code style="background:var(--surface-base);padding:2px 6px;border-radius:4px;">STO-a3f7b2c1e9d4</code></p>
+    </div>
+    <div class="thankyou-step">
+      <div class="thankyou-step-num">3</div>
+      <p><strong>Cole no ChatGPT</strong> — abra o GPT e envie seu token na primeira mensagem. Pronto!</p>
+    </div>
+  </div>
+
+  <div class="thankyou-links">
+    <a href="/store/" class="btn btn-glass">
+      <svg class="icon icon-sm" style="margin-right:4px;vertical-align:-2px;"><use href="#icon-home"/></svg>
+      Voltar para Store
+    </a>
+    <a href="mailto:contato@criattivados.com.br" class="btn btn-ghost">
+      <svg class="icon icon-sm" style="margin-right:4px;vertical-align:-2px;"><use href="#icon-mail"/></svg>
+      Precisa de ajuda?
+    </a>
+  </div>
+
+  <div class="thankyou-footer">
+    <p>&copy; 2026 criaTTivados &middot; <a href="/privacidade/" style="color:var(--text-secondary);">Privacidade</a></p>
+  </div>
+
+</div>
+
+</body>
+</html>

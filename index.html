@@ -5,152 +5,584 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>criaTTivados — Marca Pessoal com Inteligencia</title>
   <meta name="description" content="Ecossistema de ferramentas digitais para marca pessoal. Quizzes, briefings, GPTs e mais.">
-
   <meta property="og:title" content="criaTTivados — Marca Pessoal com Inteligencia">
   <meta property="og:description" content="Ecossistema de ferramentas digitais para marca pessoal.">
   <meta property="og:url" content="https://criattivados.com.br">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
-
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F3293B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>">
   <link rel="stylesheet" href="css/design-system.css">
   <style>
-    /* Layout only — visual comes from DS */
-    .pillars-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-lg);
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 var(--space-md) var(--space-3xl);
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--surface-base); color: var(--text-primary); }
+
+    /* ── Override sidebar width for collapsed state via DS class ── */
+    .sidebar { transition: width var(--transition-normal); overflow: hidden; }
+    .sidebar:not(.sidebar-collapsed) { width: 260px; }
+
+    /* ── Main content offset ── */
+    .hub-main { margin-left: 56px; transition: margin-left var(--transition-normal); }
+    body:not(.sb-collapsed) .hub-main { margin-left: 260px; }
+
+    /* ── HERO CAROUSEL ── */
+    .carousel { position: relative; width: 100%; height: 85vh; overflow: hidden; }
+    .carousel-track { display: flex; height: 100%; transition: transform 0.7s cubic-bezier(0.25,0.8,0.25,1); }
+    .carousel-slide {
+      flex: 0 0 100%; height: 100%; position: relative;
+      display: flex; align-items: flex-end; padding: var(--space-3xl) var(--space-xl);
     }
-    .pillar-icon { font-size: var(--text-5xl); margin-bottom: var(--space-md); }
-    .featured-section {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: var(--space-2xl) var(--space-md);
+    .carousel-slide::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
+      background: linear-gradient(transparent, var(--surface-base));
     }
-    .about-section {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: var(--space-3xl) var(--space-md);
-      text-align: center;
+    .slide-bg { position: absolute; inset: 0; }
+    .slide-bg-1 { background: linear-gradient(135deg, #1a0008 0%, #050505 40%, #000 100%); }
+    .slide-bg-1::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 65% 35%, rgba(243,41,59,0.2) 0%, transparent 55%); }
+    .slide-bg-2 { background: linear-gradient(135deg, #000a1a 0%, #050505 40%, #000 100%); }
+    .slide-bg-2::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 60% 40%, rgba(59,130,246,0.15) 0%, transparent 55%); }
+    .slide-bg-3 { background: linear-gradient(135deg, #1a1000 0%, #050505 40%, #000 100%); }
+    .slide-bg-3::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 55% 45%, rgba(234,179,8,0.12) 0%, transparent 55%); }
+    .slide-content { position: relative; z-index: 2; max-width: 560px; }
+    .slide-tag {
+      display: inline-block; padding: 4px 14px; border-radius: var(--radius-sm);
+      font-family: var(--font-sans); font-size: var(--text-xs); font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-widest); text-transform: uppercase; margin-bottom: var(--space-md);
     }
-    .about-section p {
-      color: var(--text-secondary);
-      font-size: var(--text-lg);
-      line-height: var(--leading-relaxed);
+    .slide-tag-red { background: var(--accent); color: white; }
+    .slide-tag-blue { background: rgba(59,130,246,0.8); color: white; }
+    .slide-tag-gold { background: rgba(234,179,8,0.8); color: #000; }
+    .slide-content h1 {
+      font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.8rem);
+      line-height: var(--leading-tight); color: var(--text-primary);
+      letter-spacing: 0.03em; margin-bottom: var(--space-sm);
+    }
+    .slide-content p {
+      font-family: var(--font-sans); font-size: var(--text-md); color: var(--text-secondary);
+      line-height: var(--leading-relaxed); margin-bottom: var(--space-lg); max-width: 440px;
+    }
+    .slide-actions { display: flex; gap: var(--space-md); flex-wrap: wrap; }
+    .slide-actions .btn .icon { margin-right: 6px; vertical-align: -2px; }
+    .carousel-dots {
+      position: absolute; bottom: var(--space-xl); left: 50%; transform: translateX(-50%);
+      z-index: 10; display: flex; gap: var(--space-sm);
+    }
+    .carousel-dot {
+      width: 32px; height: 3px; border-radius: 2px; border: none; cursor: pointer;
+      background: rgba(255,255,255,0.3); transition: all 0.3s;
+    }
+    .carousel-dot.active { background: var(--accent); width: 48px; }
+
+    /* ── SECTION ROWS ── */
+    .nfx-section { padding: var(--space-xl) var(--space-xl) 0; }
+    .nfx-section-title {
+      font-family: var(--font-display); font-size: var(--text-2xl);
+      color: var(--text-primary); letter-spacing: var(--tracking-wide);
       margin-bottom: var(--space-md);
     }
-    .hub-footer {
-      padding: var(--space-xl) var(--space-md);
-      text-align: center;
-      border-top: 1px solid var(--border-subtle);
-      color: var(--text-muted);
-      font-size: var(--text-xs);
+    .nfx-row {
+      display: flex; gap: var(--space-lg); overflow-x: auto;
+      scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+      padding-bottom: var(--space-lg); scrollbar-width: none;
     }
-    .hub-footer a { color: var(--text-secondary); text-decoration: underline; text-underline-offset: 2px; }
-    .hub-footer a:hover { color: var(--accent); }
-    .footer-links { display: flex; justify-content: center; gap: var(--space-lg); margin-top: var(--space-xs); }
+    .nfx-row::-webkit-scrollbar { display: none; }
+
+    /* ── CARDS (larger, 340px) ── */
+    .nfx-card {
+      flex: 0 0 340px; scroll-snap-align: start;
+      border-radius: var(--radius-lg); overflow: hidden;
+      background: var(--surface-raised); border: 1px solid var(--border-subtle);
+      transition: transform 0.3s cubic-bezier(0.25,0.8,0.25,1), box-shadow 0.3s, border-color 0.3s;
+      cursor: pointer; position: relative; text-decoration: none; color: inherit;
+    }
+    .nfx-card:hover {
+      transform: scale(1.06); z-index: 10;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.8), var(--shadow-glow);
+      border-color: var(--accent);
+    }
+    .nfx-card-img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block;
+      background: var(--gradient-card);
+    }
+    .nfx-card-info { padding: var(--space-lg); }
+    .nfx-card-info h3 {
+      font-family: var(--font-display); font-size: var(--text-lg);
+      color: var(--text-primary); margin-bottom: var(--space-xs); letter-spacing: var(--tracking-wide);
+    }
+    .nfx-card-info p {
+      font-family: var(--font-sans); font-size: var(--text-sm); color: var(--text-muted);
+      line-height: var(--leading-relaxed); display: -webkit-box;
+      -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .nfx-card-badges { display: flex; gap: var(--space-xs); margin-top: var(--space-sm); flex-wrap: wrap; }
+
+    /* Wide cards */
+    .nfx-card-wide { flex: 0 0 540px; }
+    .nfx-card-wide .nfx-card-img { aspect-ratio: 21/9; }
+
+    /* ── BADGES (using DS tokens) ── */
+    .nfx-badge {
+      font-family: var(--font-sans); font-size: 11px; padding: 3px 10px;
+      border-radius: var(--radius-sm); font-weight: var(--weight-bold);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .nfx-badge-free { background: rgba(46,204,113,0.2); color: var(--feedback-success); }
+    .nfx-badge-premium { background: var(--accent-subtle); color: var(--accent); }
+    .nfx-badge-soon { background: rgba(255,255,255,0.08); color: var(--text-muted); }
+    .nfx-badge-type { background: rgba(255,255,255,0.06); color: var(--text-secondary); }
+
+    /* ── PLACEHOLDER CARD VISUALS ── */
+    .nfx-card-placeholder {
+      width: 100%; aspect-ratio: 16/9; display: flex; align-items: center;
+      justify-content: center; background: var(--gradient-card);
+    }
+    .nfx-card-placeholder .icon { width: 48px; height: 48px; color: var(--text-muted); }
+    .nfx-card-placeholder-wide { aspect-ratio: 21/9; }
+
+    /* ── FEATURE HIGHLIGHT ── */
+    .nfx-feature {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2xl);
+      padding: var(--space-3xl) var(--space-xl); align-items: center;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .nfx-feature-visual {
+      border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 16/10;
+      background: var(--gradient-card); border: 1px solid var(--border-subtle);
+    }
+    .nfx-feature-visual img { width: 100%; height: 100%; object-fit: cover; }
+    .nfx-feature-content h2 {
+      font-family: var(--font-display); font-size: var(--text-4xl);
+      color: var(--text-primary); letter-spacing: var(--tracking-wide);
+      margin-bottom: var(--space-md);
+    }
+    .nfx-feature-content p {
+      font-family: var(--font-sans); font-size: var(--text-lg); color: var(--text-secondary);
+      line-height: var(--leading-relaxed); margin-bottom: var(--space-lg);
+    }
+    .nfx-feature-stats { display: flex; gap: var(--space-xl); margin-bottom: var(--space-xl); }
+    .nfx-stat { text-align: center; }
+    .nfx-stat-value { font-family: var(--font-display); font-size: var(--text-3xl); color: var(--accent); }
+    .nfx-stat-label { font-family: var(--font-sans); font-size: var(--text-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: var(--tracking-widest); }
+
+    /* ── CTA ── */
+    .nfx-cta {
+      text-align: center; padding: var(--space-3xl) var(--space-xl); position: relative;
+      background: linear-gradient(180deg, var(--surface-base) 0%, #0a0005 50%, var(--surface-base) 100%);
+    }
+    .nfx-cta::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 50% 50%, rgba(243,41,59,0.1) 0%, transparent 60%); }
+    .nfx-cta-content { position: relative; z-index: 1; }
+    .nfx-cta h2 { font-family: var(--font-display); font-size: var(--text-4xl); color: var(--text-primary); letter-spacing: var(--tracking-wide); margin-bottom: var(--space-md); }
+    .nfx-cta p { font-family: var(--font-sans); font-size: var(--text-lg); color: var(--text-secondary); margin-bottom: var(--space-xl); }
+
+    /* ── FOOTER ── */
+    .nfx-footer { padding: var(--space-2xl) var(--space-xl); text-align: center; border-top: 1px solid var(--border-subtle); }
+    .nfx-footer p { color: var(--text-muted); font-size: var(--text-xs); font-family: var(--font-sans); }
+    .nfx-footer-links { display: flex; justify-content: center; gap: var(--space-lg); margin-top: var(--space-sm); }
+    .nfx-footer-links a { color: var(--text-secondary); text-decoration: none; font-size: var(--text-xs); font-family: var(--font-sans); }
+    .nfx-footer-links a:hover { color: var(--accent); }
+
+    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      .pillars-grid { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .sidebar.sb-mobile-open { display: flex; width: 260px; z-index: 300; }
+      .hub-main { margin-left: 0 !important; }
+      .mob-toggle { display: flex !important; }
+      .carousel { height: 70vh; }
+      .carousel-slide { padding: var(--space-2xl) var(--space-md); }
+      .nfx-section { padding: var(--space-lg) var(--space-md) 0; }
+      .nfx-card { flex: 0 0 280px; }
+      .nfx-card-wide { flex: 0 0 360px; }
+      .nfx-feature { grid-template-columns: 1fr; gap: var(--space-xl); padding: var(--space-2xl) var(--space-md); }
     }
+    .mob-toggle {
+      position: fixed; top: var(--space-sm); left: var(--space-sm); z-index: 250;
+      display: none; align-items: center; justify-content: center;
+      width: 40px; height: 40px; background: var(--surface-raised);
+      border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
+      color: var(--text-secondary); cursor: pointer;
+    }
+    .mob-toggle .icon { width: 20px; height: 20px; }
+    .sb-overlay { display: none; position: fixed; inset: 0; z-index: 250; background: rgba(0,0,0,0.5); }
+    .sb-overlay.active { display: block; }
   </style>
 </head>
-<body data-biome="dark">
+<body data-biome="dark" class="sb-collapsed">
 
-<!-- Mesh Gradient Background -->
-<div class="ds-mesh-bg"><div class="g g1"></div><div class="g g2"></div><div class="g g3"></div><div class="g g4"></div><div class="g g5"></div></div>
+<!-- ═══════════════════════════════════════════════════════════
+     INLINE SVG SPRITE — Feather icons used in this page
+     ═══════════════════════════════════════════════════════════ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="icon-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="icon-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="icon-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></symbol>
+  <symbol id="icon-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></symbol>
+  <symbol id="icon-message-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></symbol>
+  <symbol id="icon-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+  <symbol id="icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="icon-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+  <symbol id="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></symbol>
+  <symbol id="icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
+  <symbol id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></symbol>
+  <symbol id="icon-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></symbol>
+  <symbol id="icon-bar-chart-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></symbol>
+  <symbol id="icon-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></symbol>
+  <symbol id="icon-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></symbol>
+  <symbol id="icon-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="icon-check-square" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+  <symbol id="icon-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></symbol>
+  <symbol id="icon-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></symbol>
+</svg>
 
-<!-- Topbar -->
-<header class="topbar">
-  <div class="topbar-left">
-    <a href="/" class="topbar-brand">cria<span style="color:var(--accent)">TT</span>ivados</a>
+<!-- ═══════════════════════════════════════════════════════════
+     SIDEBAR — DS .sidebar + .sidebar-collapsed classes
+     ═══════════════════════════════════════════════════════════ -->
+<aside class="sidebar sidebar-collapsed" id="sidebar" role="navigation" aria-label="Menu lateral">
+  <div class="sidebar-header" style="display:flex;align-items:center;justify-content:space-between;">
+    <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:var(--space-sm);overflow:hidden;">
+      <span class="icon icon-md icon-accent" style="flex-shrink:0;"><svg><use href="#icon-zap"/></svg></span>
+      <span style="font-family:var(--font-display);font-size:var(--text-lg);color:var(--text-primary);letter-spacing:var(--tracking-wide);white-space:nowrap;">cria<span style="color:var(--accent)">TT</span>ivados</span>
+    </a>
+    <button class="sidebar-toggle" id="sb-toggle" aria-label="Toggle sidebar" aria-expanded="false">
+      <span class="icon icon-sm"><svg><use href="#icon-menu"/></svg></span>
+    </button>
   </div>
-  <div class="topbar-right">
-    <a href="/store/" class="topbar-action">Store</a>
-    <a href="/quiz/" class="topbar-action">Quiz</a>
-    <a href="#sobre" class="topbar-action">Sobre</a>
-    <a href="/store/" class="btn btn-accent btn-sm">Explorar</a>
-  </div>
-</header>
 
-<!-- Hero -->
-<section class="hero hero-centered hero-glow" style="border-radius:0;min-height:85vh;display:flex;align-items:center;">
-  <div class="hero-content">
-    <p style="font-size:var(--text-sm);color:var(--text-muted);letter-spacing:var(--tracking-widest);text-transform:uppercase;margin-bottom:var(--space-md);">Ecossistema de Marca Pessoal</p>
-    <h1 class="hero-title">Sua marca.<br>Suas <span style="color:var(--accent)">ferramentas</span>.</h1>
-    <p class="hero-subtitle">Quizzes, briefings, GPTs e ferramentas digitais para descobrir quem voce e, construir seu posicionamento e comunicar com autenticidade.</p>
-    <div class="hero-actions">
-      <a href="/quiz/" class="btn btn-accent btn-lg">Fazer o Quiz Gratis</a>
-      <a href="/store/" class="btn btn-glass btn-lg">Ver Todos os Produtos</a>
+  <div class="sidebar-body">
+    <div class="nav-group">
+      <div class="nav-group-label">Navegar</div>
+      <a href="#" class="nav-item active" data-tooltip="Home">
+        <span class="nav-icon"><span class="icon icon-sm"><svg><use href="#icon-home"/></svg></span></span>
+        <span>Home</span>
+      </a>
+      <a href="#catalogo" class="nav-item" data-tooltip="Catalogo">
+        <span class="nav-icon"><span class="icon icon-sm"><svg><use href="#icon-grid"/></svg></span></span>
+        <span>Catalogo</span>
+      </a>
+      <a href="/quiz/" class="nav-item" data-tooltip="Quiz">
+        <span class="nav-icon"><span class="icon icon-sm"><svg><use href="#icon-clipboard"/></svg></span></span>
+        <span>Quiz</span>
+      </a>
+      <a href="#gpts" class="nav-item" data-tooltip="GPTs">
+        <span class="nav-icon"><span class="icon icon-sm"><svg><use href="#icon-message-circle"/></svg></span></span>
+        <span>GPTs</span>
+      </a>
+      <a href="#ferramentas" class="nav-item" data-tooltip="Ferramentas">
+        <span class="nav-icon"><span class="icon icon-sm"><svg><use href="#icon-tool"/></svg></span></span>
+        <span>Ferramentas</span>
+      </a>
     </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Mais</div>
+      <a href="#destaque" class="nav-item" data-tooltip="Destaque">
+        <span class="nav-icon"><span class="icon icon-sm"><svg><use href="#icon-star"/></svg></span></span>
+        <span>Destaque</span>
+      </a>
+      <a href="#sobre" class="nav-item" data-tooltip="Sobre">
+        <span class="nav-icon"><span class="icon icon-sm"><svg><use href="#icon-user"/></svg></span></span>
+        <span>Sobre</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <a href="/privacidade/" class="nav-item" data-tooltip="Privacidade">
+      <span class="nav-icon"><span class="icon icon-sm"><svg><use href="#icon-lock"/></svg></span></span>
+      <span>Privacidade</span>
+    </a>
+    <a href="mailto:contato@criattivados.com.br" class="nav-item" data-tooltip="Contato">
+      <span class="nav-icon"><span class="icon icon-sm"><svg><use href="#icon-mail"/></svg></span></span>
+      <span>Contato</span>
+    </a>
+  </div>
+</aside>
+
+<!-- Mobile hamburger -->
+<button class="mob-toggle" id="mob-toggle" aria-label="Menu">
+  <span class="icon icon-sm"><svg><use href="#icon-menu"/></svg></span>
+</button>
+<div class="sb-overlay" id="sb-overlay"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MAIN CONTENT
+     ═══════════════════════════════════════════════════════════ -->
+<div class="hub-main">
+
+<!-- HERO CAROUSEL — 3 slides -->
+<section class="carousel" id="carousel">
+  <div class="carousel-track" id="carousel-track">
+    <div class="carousel-slide">
+      <div class="slide-bg slide-bg-1"></div>
+      <div class="slide-content">
+        <span class="slide-tag slide-tag-red">Novo</span>
+        <h1>Descubra o DNA da sua marca pessoal</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ferramentas digitais para quem leva marca pessoal a serio.</p>
+        <div class="slide-actions">
+          <a href="/quiz/" class="btn btn-accent btn-lg"><span class="icon icon-sm"><svg><use href="#icon-play"/></svg></span> Fazer o Quiz</a>
+          <a href="#catalogo" class="btn btn-glass btn-lg"><span class="icon icon-sm"><svg><use href="#icon-info"/></svg></span> Ver Catalogo</a>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-slide">
+      <div class="slide-bg slide-bg-2"></div>
+      <div class="slide-content">
+        <span class="slide-tag slide-tag-blue">GPT</span>
+        <h1>Converse com a IA sobre sua marca</h1>
+        <p>Lorem ipsum dolor sit amet. Assistentes de IA que analisam sua personalidade e constroem sua estrategia de marca.</p>
+        <div class="slide-actions">
+          <a href="#gpts" class="btn btn-accent btn-lg"><span class="icon icon-sm"><svg><use href="#icon-play"/></svg></span> Explorar GPTs</a>
+          <a href="#" class="btn btn-glass btn-lg"><span class="icon icon-sm"><svg><use href="#icon-info"/></svg></span> Como funciona</a>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-slide">
+      <div class="slide-bg slide-bg-3"></div>
+      <div class="slide-content">
+        <span class="slide-tag slide-tag-gold">Premium</span>
+        <h1>Briefings, templates e ferramentas</h1>
+        <p>Lorem ipsum dolor sit amet. Do autoconhecimento ao posicionamento — tudo que voce precisa para construir sua marca.</p>
+        <div class="slide-actions">
+          <a href="#ferramentas" class="btn btn-accent btn-lg"><span class="icon icon-sm"><svg><use href="#icon-play"/></svg></span> Ver Ferramentas</a>
+          <a href="#destaque" class="btn btn-glass btn-lg"><span class="icon icon-sm"><svg><use href="#icon-info"/></svg></span> Produto Destaque</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="carousel-dots">
+    <button class="carousel-dot active" data-slide="0"></button>
+    <button class="carousel-dot" data-slide="1"></button>
+    <button class="carousel-dot" data-slide="2"></button>
   </div>
 </section>
 
-<!-- 3 Pillars -->
-<section style="padding-top:var(--space-3xl);">
-  <h2 style="font-family:var(--font-display);font-size:var(--text-4xl);letter-spacing:var(--tracking-wide);color:var(--text-primary);text-align:center;margin-bottom:var(--space-2xl);">Como funciona</h2>
-  <div class="pillars-grid">
-
-    <div class="card card-glass" style="text-align:center;">
-      <div class="card-body">
-        <div class="pillar-icon">🔍</div>
-        <h3 class="card-title">Descubra</h3>
-        <p class="card-subtitle" style="line-height:var(--leading-relaxed);">Quizzes e diagnosticos que revelam sua personalidade, arquetipos e estilo de comunicacao.</p>
+<!-- ROW 1 — Populares -->
+<section class="nfx-section" id="catalogo">
+  <h2 class="nfx-section-title">Populares na criaTTivados</h2>
+  <div class="nfx-row">
+    <a href="/quiz/" class="nfx-card">
+      <img class="nfx-card-img" src="images/thumb-mybrandpersona.svg" alt="MyBrandPersona">
+      <div class="nfx-card-info">
+        <h3>MyBrandPersona</h3>
+        <p>Lorem ipsum dolor sit amet. Quiz de 5 minutos com 7 sistemas de analise de personalidade.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-free">Gratis</span><span class="nfx-badge nfx-badge-type">Quiz</span></div>
       </div>
-    </div>
-
-    <div class="card card-glass" style="text-align:center;">
-      <div class="card-body">
-        <div class="pillar-icon">🏗️</div>
-        <h3 class="card-title">Construa</h3>
-        <p class="card-subtitle" style="line-height:var(--leading-relaxed);">Briefings e ferramentas que transformam autoconhecimento em estrategia de marca.</p>
+    </a>
+    <a href="#" class="nfx-card">
+      <img class="nfx-card-img" src="images/thumb-mybrandpersona-gpt.svg" alt="MyBrandPersona GPT">
+      <div class="nfx-card-info">
+        <h3>MyBrandPersona GPT</h3>
+        <p>Lorem ipsum dolor sit amet. Versao conversacional do quiz com inteligencia artificial.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-free">Gratis</span><span class="nfx-badge nfx-badge-type">GPT</span></div>
       </div>
-    </div>
-
-    <div class="card card-glass" style="text-align:center;">
-      <div class="card-body">
-        <div class="pillar-icon">📣</div>
-        <h3 class="card-title">Comunique</h3>
-        <p class="card-subtitle" style="line-height:var(--leading-relaxed);">GPTs e templates que ajudam voce a criar conteudo alinhado com sua marca pessoal.</p>
+    </a>
+    <a href="#" class="nfx-card">
+      <img class="nfx-card-img" src="images/thumb-brandesire.svg" alt="branDesire">
+      <div class="nfx-card-info">
+        <h3>branDesire</h3>
+        <p>Lorem ipsum dolor sit amet. Briefing inteligente de 20 campos que gera o DNA da marca.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-soon">Em breve</span><span class="nfx-badge nfx-badge-type">Ferramenta</span></div>
       </div>
-    </div>
-
+    </a>
+    <a href="#" class="nfx-card">
+      <img class="nfx-card-img" src="images/thumb-brandesire-gpt.svg" alt="branDesire GPT">
+      <div class="nfx-card-info">
+        <h3>branDesire GPT</h3>
+        <p>Lorem ipsum dolor sit amet. Assistente IA que guia voce pelo briefing de marca pessoal.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-free">Gratis</span><span class="nfx-badge nfx-badge-type">GPT</span></div>
+      </div>
+    </a>
+    <a href="#" class="nfx-card">
+      <div class="nfx-card-placeholder"><span class="icon"><svg><use href="#icon-image"/></svg></span></div>
+      <div class="nfx-card-info">
+        <h3>Lorem Produto 5</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-premium">Premium</span><span class="nfx-badge nfx-badge-type">Template</span></div>
+      </div>
+    </a>
+    <a href="#" class="nfx-card">
+      <div class="nfx-card-placeholder"><span class="icon"><svg><use href="#icon-bar-chart-2"/></svg></span></div>
+      <div class="nfx-card-info">
+        <h3>Lorem Produto 6</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-premium">Premium</span><span class="nfx-badge nfx-badge-type">Dashboard</span></div>
+      </div>
+    </a>
   </div>
 </section>
 
-<!-- Featured Product -->
-<section class="featured-section">
-  <div class="card card-glow card-raised">
-    <div class="card-body" style="display:flex;gap:var(--space-xl);align-items:center;padding:var(--space-2xl);">
-      <div style="font-size:5rem;flex-shrink:0;">🧬</div>
-      <div>
-        <span class="badge badge-primary" style="margin-bottom:var(--space-sm);display:inline-block;">Destaque</span>
-        <h3 class="card-title" style="font-size:var(--text-2xl);margin-bottom:var(--space-sm);">MyBrandPersona</h3>
-        <p class="card-subtitle" style="color:var(--text-secondary);line-height:var(--leading-relaxed);margin-bottom:var(--space-lg);">Quiz gratuito de 5 minutos que analisa sua personalidade com 7 sistemas: MBTI, OCEAN, arquetipos, emocoes, inteligencias multiplas e mais.</p>
-        <a href="/quiz/" class="btn btn-accent">Fazer o Quiz Gratis</a>
+<!-- ROW 2 — GPTs (wide cards) -->
+<section class="nfx-section" id="gpts">
+  <h2 class="nfx-section-title">GPTs & Inteligencia Artificial</h2>
+  <div class="nfx-row">
+    <a href="#" class="nfx-card nfx-card-wide">
+      <img class="nfx-card-img" src="images/thumb-mybrandpersona-gpt.svg" alt="MyBrandPersona GPT">
+      <div class="nfx-card-info">
+        <h3>MyBrandPersona GPT</h3>
+        <p>Lorem ipsum dolor sit amet. Converse com a IA e receba analise aprofundada da sua personalidade de marca.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-free">Gratis</span><span class="nfx-badge nfx-badge-type">ChatGPT Plus</span></div>
       </div>
-    </div>
+    </a>
+    <a href="#" class="nfx-card nfx-card-wide">
+      <img class="nfx-card-img" src="images/thumb-brandesire-gpt.svg" alt="branDesire GPT">
+      <div class="nfx-card-info">
+        <h3>branDesire GPT</h3>
+        <p>Lorem ipsum dolor sit amet. Assistente que guia voce pelo briefing de marca com perguntas certas.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-free">Gratis</span><span class="nfx-badge nfx-badge-type">ChatGPT Plus</span></div>
+      </div>
+    </a>
+    <a href="#" class="nfx-card nfx-card-wide">
+      <div class="nfx-card-placeholder nfx-card-placeholder-wide"><span class="icon"><svg><use href="#icon-cpu"/></svg></span></div>
+      <div class="nfx-card-info">
+        <h3>Lorem GPT 3</h3>
+        <p>Lorem ipsum dolor sit amet. Placeholder para futuro GPT do ecossistema criaTTivados.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-soon">Em breve</span><span class="nfx-badge nfx-badge-type">GPT</span></div>
+      </div>
+    </a>
   </div>
 </section>
 
-<!-- About -->
-<section id="sobre" class="about-section">
-  <h2 style="font-family:var(--font-display);font-size:var(--text-4xl);letter-spacing:var(--tracking-wide);color:var(--text-primary);margin-bottom:var(--space-lg);">Sobre</h2>
-  <p>criaTTivados nasceu da pratica de consultoria em marca pessoal. Cada ferramenta resolve um problema real: do autoconhecimento ao posicionamento, da diferenciacao a narrativa.</p>
-  <p>Criado por <strong style="color:var(--text-primary);">Eduardo Vale</strong> — consultor de marca pessoal e fundador do ecossistema criaTTivados.</p>
+<!-- ROW 3 — Ferramentas -->
+<section class="nfx-section" id="ferramentas">
+  <h2 class="nfx-section-title">Ferramentas & Templates</h2>
+  <div class="nfx-row">
+    <a href="#" class="nfx-card">
+      <img class="nfx-card-img" src="images/thumb-brandesire.svg" alt="branDesire">
+      <div class="nfx-card-info">
+        <h3>branDesire</h3>
+        <p>Lorem ipsum dolor sit amet. Briefing inteligente de marca pessoal em 20 campos.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-soon">Em breve</span><span class="nfx-badge nfx-badge-type">Briefing</span></div>
+      </div>
+    </a>
+    <a href="#" class="nfx-card">
+      <div class="nfx-card-placeholder"><span class="icon"><svg><use href="#icon-file-text"/></svg></span></div>
+      <div class="nfx-card-info">
+        <h3>Lorem Template 1</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-premium">R$47</span><span class="nfx-badge nfx-badge-type">Template</span></div>
+      </div>
+    </a>
+    <a href="#" class="nfx-card">
+      <div class="nfx-card-placeholder"><span class="icon"><svg><use href="#icon-target"/></svg></span></div>
+      <div class="nfx-card-info">
+        <h3>Lorem Template 2</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-premium">R$97</span><span class="nfx-badge nfx-badge-type">Workshop</span></div>
+      </div>
+    </a>
+    <a href="#" class="nfx-card">
+      <div class="nfx-card-placeholder"><span class="icon"><svg><use href="#icon-check-square"/></svg></span></div>
+      <div class="nfx-card-info">
+        <h3>Lorem Checklist</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-free">Gratis</span><span class="nfx-badge nfx-badge-type">Checklist</span></div>
+      </div>
+    </a>
+    <a href="#" class="nfx-card">
+      <div class="nfx-card-placeholder"><span class="icon"><svg><use href="#icon-package"/></svg></span></div>
+      <div class="nfx-card-info">
+        <h3>Lorem Ferramenta</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+        <div class="nfx-card-badges"><span class="nfx-badge nfx-badge-premium">R$197</span><span class="nfx-badge nfx-badge-type">Ferramenta</span></div>
+      </div>
+    </a>
+  </div>
 </section>
 
-<!-- Footer -->
-<footer class="hub-footer">
+<!-- FEATURE HIGHLIGHT -->
+<section class="nfx-feature" id="destaque">
+  <div class="nfx-feature-visual">
+    <img src="images/thumb-mybrandpersona.svg" alt="MyBrandPersona">
+  </div>
+  <div class="nfx-feature-content">
+    <h2>MyBrandPersona</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+    <div class="nfx-feature-stats">
+      <div class="nfx-stat"><div class="nfx-stat-value">7</div><div class="nfx-stat-label">Sistemas</div></div>
+      <div class="nfx-stat"><div class="nfx-stat-value">5min</div><div class="nfx-stat-label">Duracao</div></div>
+      <div class="nfx-stat"><div class="nfx-stat-value">42</div><div class="nfx-stat-label">Perguntas</div></div>
+    </div>
+    <a href="/quiz/" class="btn btn-accent btn-lg"><span class="icon icon-sm"><svg><use href="#icon-play"/></svg></span> Comecar Agora</a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="nfx-cta" id="sobre">
+  <div class="nfx-cta-content">
+    <h2>Lorem ipsum dolor sit</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <a href="/quiz/" class="btn btn-accent btn-lg">Comecar Gratis</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="nfx-footer">
   <p>&copy; 2026 criaTTivados. Todos os direitos reservados.</p>
-  <div class="footer-links">
-    <a href="/store/">Store</a>
+  <div class="nfx-footer-links">
+    <a href="#catalogo">Catalogo</a>
     <a href="/quiz/">Quiz</a>
     <a href="/privacidade/">Privacidade</a>
+    <a href="mailto:contato@criattivados.com.br">Contato</a>
   </div>
 </footer>
+
+</div><!-- /.hub-main -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+  // Sidebar toggle (DS: .sidebar-collapsed)
+  var sb = document.getElementById('sidebar');
+  var sbToggle = document.getElementById('sb-toggle');
+  var overlay = document.getElementById('sb-overlay');
+  var mobToggle = document.getElementById('mob-toggle');
+
+  function toggleSidebar() {
+    var isMobile = window.innerWidth < 768;
+    if (isMobile) {
+      sb.classList.toggle('sb-mobile-open');
+      overlay.classList.toggle('active');
+    } else {
+      sb.classList.toggle('sidebar-collapsed');
+      document.body.classList.toggle('sb-collapsed');
+      sbToggle.setAttribute('aria-expanded', !sb.classList.contains('sidebar-collapsed'));
+    }
+  }
+  sbToggle.addEventListener('click', toggleSidebar);
+  overlay.addEventListener('click', toggleSidebar);
+  if (mobToggle) mobToggle.addEventListener('click', toggleSidebar);
+
+  // Sidebar nav active state
+  document.querySelectorAll('.nav-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      document.querySelectorAll('.nav-item').forEach(function(i) { i.classList.remove('active'); });
+      item.classList.add('active');
+      if (window.innerWidth < 768) { sb.classList.remove('sb-mobile-open'); overlay.classList.remove('active'); }
+    });
+  });
+
+  // Carousel
+  var track = document.getElementById('carousel-track');
+  var dots = document.querySelectorAll('.carousel-dot');
+  var current = 0;
+  function goToSlide(n) {
+    current = n;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
+  }
+  dots.forEach(function(dot) {
+    dot.addEventListener('click', function() { goToSlide(parseInt(dot.dataset.slide)); });
+  });
+  setInterval(function() { goToSlide((current + 1) % 3); }, 6000);
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
 
 </body>
 </html>

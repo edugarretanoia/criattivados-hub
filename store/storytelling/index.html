@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>storYOURtelling 2026 — criaTTivados Store</title>
+  <meta name="description" content="GPT especialista em narrativa pessoal e storytelling estrategico. Acesso vitalicio por R$49,90.">
+  <meta property="og:title" content="storYOURtelling 2026 — criaTTivados">
+  <meta property="og:description" content="GPT especialista em narrativa pessoal e storytelling estrategico. Acesso vitalicio.">
+  <meta property="og:url" content="https://criattivados.com.br/store/storytelling/">
+  <meta property="og:type" content="product">
+  <meta property="og:locale" content="pt_BR">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F3293B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>">
+  <link rel="stylesheet" href="../../css/design-system.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--surface-base); color: var(--text-primary); }
+
+    .product-layout {
+      max-width: 960px; margin: 0 auto;
+      padding: var(--space-2xl) var(--space-md) var(--space-3xl);
+    }
+    .product-back {
+      display: inline-flex; align-items: center; gap: var(--space-xs);
+      color: var(--text-muted); font-size: var(--text-sm); text-decoration: none;
+      margin-bottom: var(--space-xl);
+    }
+    .product-back:hover { color: var(--accent); }
+    .product-hero {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2xl);
+      align-items: start;
+    }
+    .product-visual {
+      aspect-ratio: 1; border-radius: var(--radius-lg);
+      background: var(--gradient-card);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .product-visual .icon { width: 96px; height: 96px; color: var(--accent); }
+    .product-info { display: flex; flex-direction: column; gap: var(--space-md); }
+    .product-badges { display: flex; gap: var(--space-xs); flex-wrap: wrap; }
+    .product-title {
+      font-family: var(--font-display); font-size: var(--text-3xl);
+      letter-spacing: var(--tracking-wide); line-height: var(--leading-tight);
+    }
+    .product-desc {
+      color: var(--text-secondary); font-size: var(--text-md);
+      line-height: var(--leading-relaxed);
+    }
+    .product-price {
+      font-family: var(--font-display); font-size: var(--text-2xl);
+      letter-spacing: var(--tracking-wide);
+    }
+    .product-price-sub {
+      font-size: var(--text-sm); color: var(--text-muted);
+      font-family: var(--font-sans); letter-spacing: var(--tracking-normal);
+    }
+    .product-cta { margin-top: var(--space-sm); }
+    .product-cta .btn { font-size: var(--text-lg); padding: var(--space-md) var(--space-xl); }
+
+    .product-features {
+      margin-top: var(--space-3xl);
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--space-lg);
+    }
+    .feature-card {
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      background: var(--surface-raised);
+      border: 1px solid var(--border-subtle);
+    }
+    .feature-card .icon { width: 24px; height: 24px; color: var(--accent); margin-bottom: var(--space-sm); }
+    .feature-card h3 { font-size: var(--text-md); margin-bottom: var(--space-xs); }
+    .feature-card p { font-size: var(--text-sm); color: var(--text-secondary); line-height: var(--leading-relaxed); }
+
+    .product-how {
+      margin-top: var(--space-3xl);
+      padding: var(--space-2xl);
+      border-radius: var(--radius-lg);
+      background: var(--surface-raised);
+      border: 1px solid var(--border-subtle);
+    }
+    .product-how h2 {
+      font-family: var(--font-display); font-size: var(--text-xl);
+      margin-bottom: var(--space-lg);
+    }
+    .how-steps { display: flex; flex-direction: column; gap: var(--space-lg); }
+    .how-step {
+      display: flex; gap: var(--space-md); align-items: flex-start;
+    }
+    .how-step-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--accent); color: white; font-weight: var(--weight-bold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--text-sm); flex-shrink: 0;
+    }
+    .how-step-text h3 { font-size: var(--text-md); margin-bottom: 4px; }
+    .how-step-text p { font-size: var(--text-sm); color: var(--text-secondary); }
+
+    .product-footer {
+      margin-top: var(--space-3xl); padding: var(--space-xl) 0;
+      text-align: center; border-top: 1px solid var(--border-subtle);
+      color: var(--text-muted); font-size: var(--text-xs);
+    }
+    .product-footer a { color: var(--text-secondary); text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .product-hero { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <!-- SVG Icons (inline sprite) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
+    <symbol id="icon-message-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></symbol>
+    <symbol id="icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+    <symbol id="icon-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+  </svg>
+</head>
+<body data-biome="dark">
+
+<!-- Mesh Gradient Background -->
+<div class="ds-mesh-bg"><div class="g g1"></div><div class="g g2"></div><div class="g g3"></div><div class="g g4"></div><div class="g g5"></div></div>
+
+<div class="product-layout">
+
+  <a href="/store/" class="product-back">
+    <svg class="icon icon-xs"><use href="#icon-arrow-left"/></svg>
+    Voltar para Store
+  </a>
+
+  <div class="product-hero">
+    <div class="product-visual">
+      <svg class="icon"><use href="#icon-message-circle"/></svg>
+    </div>
+    <div class="product-info">
+      <div class="product-badges">
+        <span class="badge badge-accent">Premium</span>
+        <span class="badge badge-info">GPT</span>
+        <span class="badge badge-warning">Acesso Vitalicio</span>
+      </div>
+      <h1 class="product-title">storYOURtelling 2026</h1>
+      <p class="product-desc">
+        GPT especialista em narrativa pessoal e storytelling estrategico. Construa historias que conectam, convencem e vendem — usando tecnicas de McKee, Campbell, Harmon e mestres da narrativa brasileira.
+      </p>
+      <div>
+        <div class="product-price">R$ 49,90</div>
+        <div class="product-price-sub">Compra unica. Acesso vitalicio. Sem mensalidades.</div>
+      </div>
+      <div class="product-cta">
+        <button id="btn-checkout" class="btn btn-accent btn-block" onclick="handleCheckout()">
+          <svg class="icon icon-sm"><use href="#icon-zap"/></svg>
+          Comprar agora
+        </button>
+      </div>
+      <p style="font-size:var(--text-xs);color:var(--text-muted);margin-top:var(--space-xs);">
+        <svg class="icon icon-xs" style="vertical-align:-2px;"><use href="#icon-shield"/></svg>
+        Pagamento seguro via Stripe. Garantia de 7 dias (CDC art. 49).
+      </p>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="product-features">
+    <div class="feature-card">
+      <svg class="icon"><use href="#icon-message-circle"/></svg>
+      <h3>Conversacional</h3>
+      <p>Converse naturalmente e receba narrativas personalizadas para seu contexto.</p>
+    </div>
+    <div class="feature-card">
+      <svg class="icon"><use href="#icon-star"/></svg>
+      <h3>19 Mestres da Narrativa</h3>
+      <p>McKee, Campbell, Harmon, Suassuna, Barros e mais 14 especialistas em um so GPT.</p>
+    </div>
+    <div class="feature-card">
+      <svg class="icon"><use href="#icon-zap"/></svg>
+      <h3>Token de Acesso</h3>
+      <p>Apos a compra, voce recebe um token que ativa o GPT. Simples, rapido, sem cadastro.</p>
+    </div>
+    <div class="feature-card">
+      <svg class="icon"><use href="#icon-lock"/></svg>
+      <h3>Acesso Vitalicio</h3>
+      <p>Pague uma vez, use para sempre. Sem assinatura, sem renovacao.</p>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="product-how">
+    <h2>Como funciona</h2>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-step-num">1</div>
+        <div class="how-step-text">
+          <h3>Compre com seguranca</h3>
+          <p>Clique em "Comprar agora" e pague com cartao via Stripe.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">2</div>
+        <div class="how-step-text">
+          <h3>Receba seu token</h3>
+          <p>Apos o pagamento, voce recebe um token unico no email (ex: STO-a3f7b2c1e9d4).</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">3</div>
+        <div class="how-step-text">
+          <h3>Ative no ChatGPT</h3>
+          <p>Abra o storYOURtelling no ChatGPT e cole seu token na primeira mensagem. Pronto!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="product-footer">
+    <p>&copy; 2026 criaTTivados &middot; <a href="/privacidade/">Privacidade</a> &middot; <a href="/store/">Store</a></p>
+  </footer>
+
+</div>
+
+<script>
+async function handleCheckout() {
+  const btn = document.getElementById('btn-checkout');
+  btn.disabled = true;
+  btn.textContent = 'Redirecionando...';
+
+  try {
+    const res = await fetch('/api/v1/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ product_slug: 'storytelling' })
+    });
+    const data = await res.json();
+
+    if (data.checkout_url) {
+      window.location.href = data.checkout_url;
+    } else {
+      alert(data.error || 'Erro ao criar checkout. Tente novamente.');
+      btn.disabled = false;
+      btn.innerHTML = '<svg class="icon icon-sm"><use href="#icon-zap"/></svg> Comprar agora';
+    }
+  } catch (err) {
+    alert('Erro de conexao. Verifique sua internet e tente novamente.');
+    btn.disabled = false;
+    btn.innerHTML = '<svg class="icon icon-sm"><use href="#icon-zap"/></svg> Comprar agora';
+  }
+}
+</script>
+
+</body>
+</html>

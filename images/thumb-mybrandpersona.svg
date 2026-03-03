@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a0008"/>
+      <stop offset="50%" stop-color="#0a0a0a"/>
+      <stop offset="100%" stop-color="#140005"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#F3293B" stop-opacity="0.3"/>
+      <stop offset="70%" stop-color="#F3293B" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="dna" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F3293B"/>
+      <stop offset="100%" stop-color="#7d1a32"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="340" fill="url(#bg)"/>
+  <ellipse cx="300" cy="170" rx="200" ry="160" fill="url(#glow)"/>
+  <!-- DNA helix abstract -->
+  <g opacity="0.6" stroke="url(#dna)" stroke-width="2" fill="none">
+    <path d="M240,60 Q300,110 260,170 Q220,230 280,280"/>
+    <path d="M360,60 Q300,110 340,170 Q380,230 320,280"/>
+    <line x1="260" y1="90" x2="340" y2="90" stroke-opacity="0.4"/>
+    <line x1="250" y1="130" x2="350" y2="130" stroke-opacity="0.3"/>
+    <line x1="260" y1="170" x2="340" y2="170" stroke-opacity="0.4"/>
+    <line x1="270" y1="210" x2="330" y2="210" stroke-opacity="0.3"/>
+    <line x1="260" y1="250" x2="340" y2="250" stroke-opacity="0.4"/>
+  </g>
+  <!-- circles on helix -->
+  <circle cx="250" cy="90" r="4" fill="#F3293B" opacity="0.8"/>
+  <circle cx="350" cy="90" r="4" fill="#F3293B" opacity="0.8"/>
+  <circle cx="245" cy="130" r="3" fill="#F3293B" opacity="0.6"/>
+  <circle cx="355" cy="130" r="3" fill="#F3293B" opacity="0.6"/>
+  <circle cx="260" cy="170" r="4" fill="#F3293B" opacity="0.8"/>
+  <circle cx="340" cy="170" r="4" fill="#F3293B" opacity="0.8"/>
+  <circle cx="270" cy="210" r="3" fill="#F3293B" opacity="0.6"/>
+  <circle cx="330" cy="210" r="3" fill="#F3293B" opacity="0.6"/>
+  <circle cx="260" cy="250" r="4" fill="#F3293B" opacity="0.8"/>
+  <circle cx="340" cy="250" r="4" fill="#F3293B" opacity="0.8"/>
+  <!-- Title -->
+  <text x="300" y="170" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="32" font-weight="800" fill="white" letter-spacing="2">MyBrandPersona</text>
+  <text x="300" y="200" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="14" fill="#b0b0b0" letter-spacing="3">QUIZ DE MARCA PESSOAL</text>
+</svg>

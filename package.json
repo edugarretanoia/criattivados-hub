@@ -1,0 +1,15 @@
+{
+  "name": "criattivados-hub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "criaTTivados Hub — Plataforma multi-produto de produtos digitais",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site — no build step'",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "stripe": "^17.7.0",
+    "@supabase/supabase-js": "^2.49.0"
+  }
+}
