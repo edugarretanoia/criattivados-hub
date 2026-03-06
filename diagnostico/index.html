@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>branDesireBusiness — Diagnóstico de Marca</title>
+  <meta name="description" content="Diagnóstico gratuito de maturidade de marca em 6 dimensões. Descubra onde sua marca está e por onde começar.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans: 'Roboto Condensed', sans-serif;
+      --font-display: 'Montserrat', sans-serif;
+      --accent: #F3293B;
+      --surface-base: #0a0a1a;
+      --surface-raised: rgba(17,17,39,0.7);
+      --surface-glass: rgba(17,17,39,0.7);
+      --border-default: rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.18);
+      --text-primary: rgba(255,255,255,0.95);
+      --text-secondary: rgba(255,255,255,0.7);
+      --text-muted: rgba(255,255,255,0.45);
+      --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem;
+      --radius-md: 12px; --radius-lg: 16px;
+      --feedback-success: #2ecc71; --feedback-error: #e94560; --feedback-warning: #f1c40f;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-sans); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; }
+
+    /* MESH GRADIENT */
+    .ds-mesh-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(40deg, rgb(20, 5, 15), rgb(5, 8, 25)); overflow: hidden; }
+    .ds-mesh-bg .g { position: absolute; width: 80%; height: 80%; top: 10%; left: 10%; border-radius: 50%; mix-blend-mode: hard-light; opacity: 0.35; filter: blur(40px); }
+    .ds-mesh-bg .g1 { background: radial-gradient(circle at center, rgba(120, 12, 20, 0.9) 0, transparent 50%); animation: meshV 30s ease infinite; }
+    .ds-mesh-bg .g2 { background: radial-gradient(circle at center, rgba(24, 10, 31, 0.8) 0, transparent 50%); animation: meshCircle 20s reverse infinite; transform-origin: calc(50% - 400px); }
+    .ds-mesh-bg .g3 { background: radial-gradient(circle at center, rgba(5, 10, 32, 0.7) 0, transparent 50%); animation: meshCircle 40s linear infinite; transform-origin: calc(50% + 400px); }
+    .ds-mesh-bg .g4 { background: radial-gradient(circle at center, rgba(70, 8, 15, 0.6) 0, transparent 50%); animation: meshH 40s ease infinite; opacity: 0.2; transform-origin: calc(50% - 200px); }
+    .ds-mesh-bg .g5 { background: radial-gradient(circle at center, rgba(40, 5, 25, 0.7) 0, transparent 50%); animation: meshCircle 20s ease infinite; transform-origin: calc(50% - 800px) calc(50% + 800px); }
+    @keyframes meshV { 0%, 100% { transform: translateY(-50%); } 50% { transform: translateY(50%); } }
+    @keyframes meshH { 0%, 100% { transform: translateX(-50%) translateY(-10%); } 50% { transform: translateX(50%) translateY(10%); } }
+    @keyframes meshCircle { 0% { transform: rotate(0deg); } 50% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
+    body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(47,19,62,0.15) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+    body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%); pointer-events: none; z-index: 0; }
+
+    .container { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: var(--space-4); }
+
+    .header { text-align: center; padding: var(--space-8) 0 var(--space-4); }
+    .logo { font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; letter-spacing: -0.5px; text-transform: uppercase; }
+    .logo span { color: var(--accent); }
+    .subtitle { color: var(--text-muted); font-size: 0.85rem; margin-top: var(--space-2); }
+
+    .card { background: var(--surface-glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border-default); border-radius: var(--radius-lg); padding: var(--space-6); margin-bottom: var(--space-4); }
+    .card h2 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: var(--space-3); }
+
+    .form-group { margin-bottom: var(--space-4); }
+    .form-group label { display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: var(--space-2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input { width: 100%; padding: var(--space-3) var(--space-4); background: rgba(17,17,39,0.5); border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-primary); font-family: var(--font-sans); font-size: 0.95rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    .form-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(243,41,59,0.15); }
+    .form-group input::placeholder { color: var(--text-muted); }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: var(--space-3) var(--space-6); border: none; border-radius: var(--radius-md); font-family: var(--font-sans); font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { filter: brightness(1.15); transform: translateY(-1px); }
+    .btn-secondary { background: rgba(255,255,255,0.08); color: var(--text-secondary); border: 1px solid var(--border-default); }
+    .btn-secondary:hover { border-color: var(--border-strong); color: var(--text-primary); }
+    .btn-group { display: flex; gap: var(--space-3); justify-content: center; margin-top: var(--space-5); flex-wrap: wrap; }
+
+    .quiz-progress { height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; margin-bottom: var(--space-4); overflow: hidden; }
+    .quiz-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+    .quiz-counter { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-bottom: var(--space-2); }
+    .quiz-cat { font-size: 0.75rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: var(--space-2); }
+    .quiz-q { font-size: 1.05rem; line-height: 1.5; margin-bottom: var(--space-5); min-height: 3rem; }
+
+    .likert { display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap; margin-bottom: var(--space-4); }
+    .likert label { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+    .likert input { display: none; }
+    .orb { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--border-default); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; transition: all 0.2s; color: var(--text-muted); }
+    .likert input:checked + .orb { border-color: var(--accent); background: rgba(243,41,59,0.15); color: var(--accent); }
+    .likert label:hover .orb { border-color: var(--border-strong); }
+    .orb-label { font-size: 0.65rem; color: var(--text-muted); text-align: center; max-width: 60px; }
+
+    .result-hero { text-align: center; padding: var(--space-6) 0; }
+    .result-hero .label { font-size: 0.85rem; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .result-hero .score { font-family: var(--font-display); font-size: 4.5rem; font-weight: 900; color: var(--accent); line-height: 1; margin: var(--space-2) 0; }
+    .result-hero .desc { font-size: 0.9rem; color: var(--text-muted); }
+    .result-classification { display: inline-block; padding: 6px 18px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: var(--space-3); }
+    .result-classification.greenfield { background: rgba(233,69,96,0.15); color: #e94560; }
+    .result-classification.brownfield { background: rgba(243,41,59,0.15); color: #F3293B; }
+    .result-classification.upgrade { background: rgba(0,212,192,0.15); color: #00d4c0; }
+    .result-classification.polish { background: rgba(74,159,85,0.15); color: #4a9e55; }
+
+    .radar-wrap { text-align: center; margin: var(--space-4) 0; }
+    .radar-wrap svg { max-width: 480px; width: 100%; }
+
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: var(--space-3); margin: var(--space-4) 0; }
+    .metric-card { background: var(--surface-glass); backdrop-filter: blur(12px); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: var(--space-4); text-align: center; }
+    .metric-card .value { font-family: var(--font-display); font-size: 1.8rem; font-weight: 900; }
+    .metric-card .label { font-size: 0.72rem; color: var(--text-secondary); margin-top: 4px; }
+
+    .bottleneck-item { display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) 0; border-bottom: 1px solid var(--border-default); }
+    .bottleneck-item:last-child { border-bottom: none; }
+    .bn-score { min-width: 48px; text-align: center; }
+    .bn-score .pct { font-family: var(--font-display); font-size: 1.5rem; }
+    .bn-score .level { font-size: 0.6rem; font-weight: 700; }
+    .bn-info .name { font-weight: 600; font-size: 0.9rem; }
+    .bn-info .rec { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--surface-glass); backdrop-filter: blur(12px); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: var(--space-3) var(--space-5); font-size: 0.85rem; color: var(--text-primary); z-index: 999; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .toast.show { opacity: 1; }
+
+    .footer { text-align: center; font-size: 0.7rem; color: var(--text-muted); padding: var(--space-6) 0 var(--space-4); }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    @media (max-width: 480px) {
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .result-hero .score { font-size: 3.5rem; }
+      .orb { width: 38px; height: 38px; font-size: 0.9rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { .ds-mesh-bg .g { animation: none !important; } }
+  </style>
+</head>
+<body>
+
+<div class="ds-mesh-bg">
+  <div class="g g1"></div><div class="g g2"></div><div class="g g3"></div><div class="g g4"></div><div class="g g5"></div>
+</div>
+
+<div class="container">
+  <div class="header">
+    <div class="logo">bran<span>Desire</span>Business</div>
+    <div class="subtitle">Full Brand Journey | Sua marca do 0 ao 200%</div>
+  </div>
+
+  <!-- LEAD CAPTURE -->
+  <div id="screen-lead" class="screen active">
+    <div class="card">
+      <h2>Diagnóstico de Maturidade de Marca</h2>
+      <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:var(--space-5);">
+        Descubra em 5 minutos onde sua marca está forte e onde estão os gargalos.
+        São 30 perguntas rápidas em 6 dimensões fundamentais.
+      </p>
+      <div class="form-group">
+        <label for="lead-name">Nome</label>
+        <input type="text" id="lead-name" placeholder="Seu nome completo" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="lead-email">Email</label>
+        <input type="email" id="lead-email" placeholder="seu@email.com" autocomplete="email">
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="startQuiz()">Iniciar Diagnóstico</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="screen-quiz" class="screen">
+    <div class="card">
+      <div class="quiz-counter"><span id="quiz-counter">1 de 30</span><span id="quiz-pct">0%</span></div>
+      <div class="quiz-progress"><div class="quiz-fill" id="quiz-fill" style="width:0%"></div></div>
+      <div class="quiz-cat" id="quiz-cat"></div>
+      <div class="quiz-q" id="quiz-q"></div>
+      <div class="likert" id="quiz-likert"></div>
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="quizPrev()">Anterior</button>
+        <button class="btn btn-primary" id="quiz-next-btn" onclick="quizNext()">Próxima</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="screen-result" class="screen">
+    <div class="card">
+      <div class="result-hero">
+        <div class="label">Diagnóstico Completo</div>
+        <div class="score" id="r-score">0%</div>
+        <div class="desc">maturidade geral</div>
+        <div class="result-classification" id="r-class"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Mapa de Maturidade</h2>
+      <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:var(--space-4);">Quanto maior a área, mais madura a marca nessa dimensão.</p>
+      <div class="radar-wrap">
+        <svg id="radar-chart" viewBox="-60 -40 520 480" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <div class="metrics" id="r-metrics"></div>
+
+    <div class="card" id="r-bottleneck-card">
+      <h2>Gargalos Identificados</h2>
+      <div id="r-bottlenecks"></div>
+    </div>
+
+    <div class="card">
+      <h2>O Que Isso Significa</h2>
+      <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.6;" id="r-meaning"></p>
+    </div>
+
+    <div class="btn-group" style="padding:var(--space-4) 0;">
+      <button class="btn btn-primary" onclick="downloadResult()">Baixar Resultado (.txt)</button>
+    </div>
+  </div>
+
+  <div class="footer">branDesireBusiness v3.0 — Full Brand Journey | Squad criaTTivados | Synkra AIOS</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const QUIZ_CATEGORIES = [
+  { id: 'foundation', label: 'Fundação & Audiência', stage: 'Stage 0-1', color: '#4a9e55', rec: 'Começar pelo Stage 1 — Briefing profundo' },
+  { id: 'strategy', label: 'Estratégia & Posicionamento', stage: 'Stage 3 — DEENEA', color: '#00d4c0', rec: 'Stage 3 — DEENEA completa (propósito, arquétipo, positioning)' },
+  { id: 'identity', label: 'Identidade & Diferenciação', stage: 'Stage 5 — UNNIKO', color: '#22d3ee', rec: 'Stage 5 — UNNIKO completa (visual, verbal, sensorial)' },
+  { id: 'narrative', label: 'Narrativa & Criatividade', stage: 'Stage 7+9', color: '#4a8fe8', rec: 'Stage 7+9 — storYOURtelling (Big Idea, tom, storytelling)' },
+  { id: 'community', label: 'Comunidade & Cultura', stage: 'Transversal', color: '#F3293B', rec: 'Reforçar em DEENEA (valores) + UNNIKO (rituais) + storYOURtelling (narrativa)' },
+  { id: 'growth', label: 'Crescimento & Monetização', stage: 'Stage 11', color: '#8a52d0', rec: 'Stage 11 — Content-Ops + Growth-Ops + moNNey' },
+];
+
+const MATURITY_QUESTIONS = [
+  { cat: 'Fundação & Audiência', catId: 'foundation', q: 'Seu público-alvo está definido com perfil demográfico, comportamental e psicográfico documentado?' },
+  { cat: 'Fundação & Audiência', catId: 'foundation', q: 'Você sabe articular claramente o problema principal que seu produto/serviço resolve na vida do cliente?' },
+  { cat: 'Fundação & Audiência', catId: 'foundation', q: 'Você tem mapeados seus 3-5 principais concorrentes e sabe o que cada um faz de diferente?' },
+  { cat: 'Fundação & Audiência', catId: 'foundation', q: 'Seu modelo de negócio (como você entrega e captura valor) está claramente definido?' },
+  { cat: 'Fundação & Audiência', catId: 'foundation', q: 'Você possui materiais de marca organizados e acessíveis (logo, textos, apresentações, assets)?' },
+  { cat: 'Estratégia & Posicionamento', catId: 'strategy', q: 'Sua marca tem um propósito definido que vai além de "vender produtos/serviços"?' },
+  { cat: 'Estratégia & Posicionamento', catId: 'strategy', q: 'Você consegue completar a frase: "Para [público], [marca] é a única [categoria] que [benefício] porque [razão]"?' },
+  { cat: 'Estratégia & Posicionamento', catId: 'strategy', q: 'Sua marca tem valores documentados que guiam decisões reais do dia a dia (não apenas frases na parede)?' },
+  { cat: 'Estratégia & Posicionamento', catId: 'strategy', q: 'Você sabe qual arquétipo de personalidade sua marca representa (ex: Herói, Criador, Explorador, Sábio)?' },
+  { cat: 'Estratégia & Posicionamento', catId: 'strategy', q: 'Seus colaboradores e parceiros conseguiriam descrever o posicionamento da marca de forma alinhada entre si?' },
+  { cat: 'Identidade & Diferenciação', catId: 'identity', q: 'Sua marca possui um sistema visual completo (logo + variações, paleta de cores, tipografia, estilo de imagem)?' },
+  { cat: 'Identidade & Diferenciação', catId: 'identity', q: 'Existe um manual/guideline de marca que é efetivamente seguido por todos que produzem conteúdo?' },
+  { cat: 'Identidade & Diferenciação', catId: 'identity', q: 'Sua marca seria reconhecível mesmo sem o logotipo (apenas pela cor, tom, estilo visual ou verbal)?' },
+  { cat: 'Identidade & Diferenciação', catId: 'identity', q: 'A identidade verbal da marca (nome, tagline, tom de voz) é tão trabalhada quanto a visual?' },
+  { cat: 'Identidade & Diferenciação', catId: 'identity', q: 'Sua marca explora mais de um sentido além do visual (som, textura, cheiro, experiência tátil)?' },
+  { cat: 'Narrativa & Criatividade', catId: 'narrative', q: 'Sua marca tem uma "Grande Ideia" ou conceito criativo central que unifica toda a comunicação?' },
+  { cat: 'Narrativa & Criatividade', catId: 'narrative', q: 'A história de origem da marca é contada de forma intencional e estratégica?' },
+  { cat: 'Narrativa & Criatividade', catId: 'narrative', q: 'O tom de voz da marca está formalmente definido e é aplicado de forma consistente em todos os canais?' },
+  { cat: 'Narrativa & Criatividade', catId: 'narrative', q: 'O conteúdo da marca provoca emoções específicas e intencionais no público (não apenas informa)?', likert: 'behavior' },
+  { cat: 'Narrativa & Criatividade', catId: 'narrative', q: 'A marca tem uma narrativa clara que posiciona o cliente como protagonista (não a marca)?', likert: 'behavior' },
+  { cat: 'Comunidade & Cultura', catId: 'community', q: 'Existe uma comunidade de clientes/fãs que se identifica com a marca além da compra?', likert: 'behavior' },
+  { cat: 'Comunidade & Cultura', catId: 'community', q: 'A marca tem rituais, momentos ou tradições reconhecíveis que os clientes associam a ela?', likert: 'behavior' },
+  { cat: 'Comunidade & Cultura', catId: 'community', q: 'A marca possui uma linguagem ou vocabulário próprio que seus seguidores usam?', likert: 'behavior' },
+  { cat: 'Comunidade & Cultura', catId: 'community', q: 'A cultura interna da empresa (como as pessoas trabalham) reflete os valores da marca externa?', likert: 'behavior' },
+  { cat: 'Comunidade & Cultura', catId: 'community', q: 'Clientes recomendam sua marca espontaneamente e se sentem parte de algo maior ao usá-la?', likert: 'behavior' },
+  { cat: 'Crescimento & Monetização', catId: 'growth', q: 'Você tem mapeada a jornada completa do cliente desde o primeiro contato até a recompra/indicação?' },
+  { cat: 'Crescimento & Monetização', catId: 'growth', q: 'Sua oferta principal é percebida como irresistível (o valor entregue é claramente maior que o preço cobrado)?' },
+  { cat: 'Crescimento & Monetização', catId: 'growth', q: 'Você tem uma estratégia de conteúdo documentada com calendário, canais e formatos definidos?' },
+  { cat: 'Crescimento & Monetização', catId: 'growth', q: 'Você monitora métricas de marca (awareness, consideração, preferência) além de métricas de venda?' },
+  { cat: 'Crescimento & Monetização', catId: 'growth', q: 'Sua presença digital (site, redes, ads) é estrategicamente alinhada com o posicionamento da marca?' },
+];
+
+const QUIZ_MEANINGS = {
+  greenfield: 'Sua marca ainda não construiu as bases fundamentais. Isso é uma oportunidade incrível — vamos criar desde a essência até a expressão, sem vícios para corrigir. A jornada completa do branDesire vai construir cada dimensão do zero.',
+  brownfield: 'Sua marca existe na prática mas falta intencionalidade em dimensões-chave. As pessoas conhecem você, mas a marca não gera o impacto que poderia. Vamos focar nos gargalos identificados para dar alma ao que já funciona.',
+  upgrade: 'Sua marca já tem uma base sólida, mas há gaps entre a intenção e a experiência real. O radar acima mostra exatamente onde investir para alinhar tudo ao próximo nível de consistência e diferenciação.',
+  polish: 'Sua marca é reconhecida e desejada. Os refinamentos são cirúrgicos — o radar mostra as dimensões que ainda podem evoluir para maximizar diferenciação e lealdade emocional.',
+};
+
+let leadName = '', leadEmail = '', quizIdx = 0;
+let quizAnswers = new Array(MATURITY_QUESTIONS.length).fill(0);
+
+function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function showScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+
+function startQuiz() {
+  leadName = document.getElementById('lead-name').value.trim();
+  leadEmail = document.getElementById('lead-email').value.trim();
+  if (!leadName) { toast('Preencha seu nome'); return; }
+  if (!leadEmail || !leadEmail.includes('@')) { toast('Preencha um email válido'); return; }
+  showScreen('screen-quiz');
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const q = MATURITY_QUESTIONS[quizIdx];
+  document.getElementById('quiz-cat').textContent = q.cat;
+  document.getElementById('quiz-q').textContent = q.q;
+  const pct = Math.round((quizIdx / MATURITY_QUESTIONS.length) * 100);
+  document.getElementById('quiz-fill').style.width = pct + '%';
+  document.getElementById('quiz-counter').textContent = `${quizIdx + 1} de ${MATURITY_QUESTIONS.length}`;
+  document.getElementById('quiz-pct').textContent = pct + '%';
+  const saved = quizAnswers[quizIdx] || 0;
+  const labels = ({ default: ['Não existe', 'Improviso', 'Parcial', 'Documentado', 'Excelente'], behavior: ['Não existe', 'Raro', 'Às vezes', 'Frequente', 'Consistente'] })[q.likert || 'default'];
+  document.getElementById('quiz-likert').innerHTML = [1,2,3,4,5].map(v =>
+    `<label><input type="radio" name="quiz-a" value="${v}" ${saved === v ? 'checked' : ''} onchange="selectAnswer(${v})"><span class="orb">${v}</span><span class="orb-label">${labels[v-1]}</span></label>`
+  ).join('');
+  document.getElementById('quiz-next-btn').textContent = quizIdx === MATURITY_QUESTIONS.length - 1 ? 'Finalizar' : 'Próxima';
+}
+
+function selectAnswer(val) {
+  quizAnswers[quizIdx] = val;
+  setTimeout(() => {
+    if (quizIdx < MATURITY_QUESTIONS.length - 1) { quizIdx++; renderQuiz(); }
+    else { finishQuiz(); }
+  }, 250);
+}
+
+function quizPrev() { if (quizIdx > 0) { quizIdx--; renderQuiz(); } }
+function quizNext() {
+  if (!quizAnswers[quizIdx]) { toast('Selecione uma opção'); return; }
+  if (quizIdx < MATURITY_QUESTIONS.length - 1) { quizIdx++; renderQuiz(); } else { finishQuiz(); }
+}
+
+function getCategoryScores() {
+  const scores = {};
+  QUIZ_CATEGORIES.forEach(c => { scores[c.id] = { total: 0, count: 0, max: 0 }; });
+  MATURITY_QUESTIONS.forEach((q, i) => { scores[q.catId].total += quizAnswers[i] || 0; scores[q.catId].count++; scores[q.catId].max += 5; });
+  QUIZ_CATEGORIES.forEach(c => {
+    scores[c.id].pct = scores[c.id].max > 0 ? Math.round((scores[c.id].total / scores[c.id].max) * 100) : 0;
+    scores[c.id].level = scores[c.id].pct <= 32 ? 'Crítico' : scores[c.id].pct <= 52 ? 'Frágil' : scores[c.id].pct <= 72 ? 'Parcial' : scores[c.id].pct <= 88 ? 'Sólido' : 'Excelente';
+  });
+  return scores;
+}
+
+function finishQuiz() {
+  const catScores = getCategoryScores();
+  const pct = Math.round(QUIZ_CATEGORIES.map(c => catScores[c.id].pct).reduce((a, b) => a + b, 0) / QUIZ_CATEGORIES.length);
+  const classification = pct <= 25 ? 'greenfield' : pct <= 50 ? 'brownfield' : pct <= 75 ? 'upgrade' : 'polish';
+
+  document.getElementById('r-score').textContent = pct + '%';
+  const classEl = document.getElementById('r-class');
+  classEl.textContent = classification.charAt(0).toUpperCase() + classification.slice(1);
+  classEl.className = 'result-classification ' + classification;
+  document.getElementById('r-meaning').textContent = QUIZ_MEANINGS[classification];
+  renderRadarChart(catScores);
+
+  document.getElementById('r-metrics').innerHTML = QUIZ_CATEGORIES.map(cat => {
+    const s = catScores[cat.id];
+    const lc = s.pct <= 32 ? '#e94560' : s.pct <= 52 ? '#F3293B' : s.pct <= 72 ? '#00d4c0' : s.pct <= 88 ? '#4a8fe8' : '#4a9e55';
+    return `<div class="metric-card" style="background:color-mix(in srgb,${lc} 10%,rgba(17,17,39,0.7));border-color:color-mix(in srgb,${lc} 25%,transparent);"><div class="value" style="color:${cat.color}">${s.pct}%</div><div class="label">${escapeHtml(cat.label)}</div><div style="font-size:0.68rem;color:${lc};font-weight:600;margin-top:4px;">${s.level}</div></div>`;
+  }).join('');
+
+  const bns = QUIZ_CATEGORIES.filter(c => (catScores[c.id]?.pct || 0) <= 52);
+  const bnCard = document.getElementById('r-bottleneck-card');
+  if (!bns.length) { bnCard.style.display = 'none'; } else {
+    bnCard.style.display = '';
+    document.getElementById('r-bottlenecks').innerHTML = bns.map(cat => {
+      const s = catScores[cat.id];
+      return `<div class="bottleneck-item"><div class="bn-score"><div class="pct" style="color:${cat.color}">${s.pct}%</div><div class="level" style="color:var(--feedback-error)">${s.level}</div></div><div class="bn-info"><div class="name">${escapeHtml(cat.label)}</div><div class="rec">${escapeHtml(cat.stage)} — ${escapeHtml(cat.rec)}</div></div></div>`;
+    }).join('');
+  }
+
+  window._diagResult = { leadName, leadEmail, pct, classification, catScores, date: new Date().toISOString() };
+  showScreen('screen-result');
+}
+
+function renderRadarChart(scores) {
+  const svg = document.getElementById('radar-chart');
+  const cx = 200, cy = 200, r = 150, n = QUIZ_CATEGORIES.length;
+  const step = (Math.PI * 2) / n, start = -Math.PI / 2;
+  const pts = (s) => Array.from({length: n}, (_, i) => `${cx + r * s * Math.cos(start + i * step)},${cy + r * s * Math.sin(start + i * step)}`).join(' ');
+
+  let h = `<defs><linearGradient id="rfg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${'#F3293B'}" stop-opacity="0.25"/><stop offset="100%" stop-color="#533483" stop-opacity="0.15"/></linearGradient><filter id="rg"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="dg"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+
+  [0.2,0.4,0.6,0.8,1].forEach(s => { h += `<polygon points="${pts(s)}" fill="none" stroke="var(--border-default)" stroke-width="2.8" stroke-dasharray="3 3" opacity="0.4"/>`; });
+  for (let i = 0; i < n; i++) { const a = start + i * step; h += `<line x1="${cx}" y1="${cy}" x2="${cx+r*Math.cos(a)}" y2="${cy+r*Math.sin(a)}" stroke="var(--border-default)" stroke-width="2.8" stroke-dasharray="3 3" opacity="0.4"/>`; }
+  [0.2,0.4,0.6,0.8,1].forEach(s => { h += `<text x="${cx+4}" y="${cy-r*s-3}" fill="var(--text-muted)" font-size="8" opacity="0.5">${Math.round(s*100)}%</text>`; });
+
+  const dp = QUIZ_CATEGORIES.map((c, i) => { const v = (scores[c.id].pct||0)/100, a = start+i*step; return `${cx+r*v*Math.cos(a)},${cy+r*v*Math.sin(a)}`; });
+  h += `<polygon points="${dp.join(' ')}" fill="url(#rfg)" stroke="#F3293B" stroke-width="2" stroke-linejoin="round" filter="url(#rg)"/>`;
+
+  QUIZ_CATEGORIES.forEach((c, i) => {
+    const v = (scores[c.id].pct||0)/100, a = start+i*step;
+    const dx = cx+r*v*Math.cos(a), dy = cy+r*v*Math.sin(a);
+    h += `<circle cx="${dx}" cy="${dy}" r="12" fill="${c.color}" opacity="0.15"/>`;
+    h += `<circle cx="${dx}" cy="${dy}" r="5" fill="${c.color}" stroke="rgba(10,10,26,0.8)" stroke-width="2" filter="url(#dg)"/>`;
+    const ld = r+32, lx = cx+ld*Math.cos(a), ly = cy+ld*Math.sin(a);
+    const anchor = Math.abs(Math.cos(a)) < 0.15 ? 'middle' : Math.cos(a) > 0 ? 'start' : 'end';
+    h += `<text x="${lx}" y="${ly}" text-anchor="${anchor}" dominant-baseline="middle" fill="${c.color}" font-size="11" font-weight="700">${c.label.split(' & ')[0]}</text>`;
+    h += `<text x="${lx}" y="${ly+14}" text-anchor="${anchor}" dominant-baseline="middle" fill="var(--text-muted)" font-size="10">${scores[c.id].pct}%</text>`;
+  });
+  svg.innerHTML = h;
+}
+
+function buildResultText() {
+  const r = window._diagResult; if (!r) return '';
+  let t = `branDesire Diagnóstico | ${r.leadName} | ${r.leadEmail} | ${new Date(r.date).toLocaleDateString('pt-BR')}\n`;
+  t += `Geral: ${r.pct}% (${r.classification})\n\n`;
+  t += `RESPOSTAS:\n`;
+  quizAnswers.forEach((a, i) => { t += `${i+1}:${a}`; if (i < quizAnswers.length - 1) t += ', '; if ((i+1) % 5 === 0) t += '\n'; });
+  t += `\n\nRESUMO:\n`;
+  QUIZ_CATEGORIES.forEach(c => { const s = r.catScores[c.id]; t += `${c.label}: ${s.pct}% (${s.level})\n`; });
+  return t;
+}
+
+function sendEmail() {
+  const r = window._diagResult; if (!r) return;
+  window.open(`mailto:?subject=${encodeURIComponent(`Diagnóstico branDesire — ${r.leadName} (${r.pct}%)`)}&body=${encodeURIComponent(buildResultText())}`, '_self');
+  toast('Abrindo email...');
+}
+
+function downloadResult() {
+  const r = window._diagResult; if (!r) return;
+  const blob = new Blob([buildResultText()], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `diagnostico-${r.leadName.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('Download iniciado!');
+}
+</script>
+</body>
+</html>
