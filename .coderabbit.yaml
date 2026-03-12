@@ -1,0 +1,96 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+language: pt-BR
+tone_instructions: >
+  Tom direto e tecnico. Foco em bugs, seguranca, performance e code smells.
+  Evite elogios genericos. Seja conciso e actionable.
+
+early_access: true
+
+reviews:
+  request_changes_workflow: true
+  high_level_summary: true
+  high_level_summary_placeholder: '@coderabbitai summary'
+  poem: false
+  collapse_walkthrough: false
+  sequence_diagrams: true
+  changed_files_summary: true
+  assess_linked_issues: true
+  related_issues: true
+  related_prs: true
+
+  auto_review:
+    enabled: true
+    drafts: false
+
+  path_filters:
+    - '!**/*.snap'
+    - '!**/fixtures/**'
+    - '!**/legacy/**'
+
+  path_instructions: []
+
+  labeling_instructions:
+    - label: app
+      instructions: 'Aplicar quando o PR modifica codigo da aplicacao principal (src/, app/).'
+    - label: squad
+      instructions: 'Aplicar quando o PR pertence a um squad especifico baseado nos paths alterados.'
+    - label: security
+      instructions: 'Aplicar quando o PR envolve autenticacao, autorizacao, sanitizacao de input, criptografia ou secrets.'
+    - label: breaking-change
+      instructions: 'Aplicar quando o PR introduz breaking changes em APIs, contratos, schemas ou interfaces publicas.'
+
+  tools:
+    # Secret scanning
+    gitleaks:
+      enabled: true
+    trufflehog:
+      enabled: true
+
+    # Linters
+    oxc:
+      enabled: true
+    dotenv_lint:
+      enabled: true
+
+    # Disable tools not needed
+    ast_grep:
+      enabled: false
+
+  # Review effort estimation
+  estimate_code_review_effort: true
+
+finishing_touches:
+  docstrings:
+    enabled: true
+  unit_tests:
+    enabled: true
+
+knowledge_base:
+  web_search:
+    enabled: true
+  learnings:
+    scope: local
+  code_guidelines:
+    enabled: false
+
+code_generation:
+  docstrings:
+    path_instructions: []
+  unit_tests:
+    path_instructions:
+      - path: '**/*.ts'
+        instructions: >
+          Use Vitest como framework de testes. Gere testes abrangentes incluindo
+          edge cases, error conditions e happy paths. Use describe/it pattern.
+      - path: '**/*.tsx'
+        instructions: >
+          Use Vitest com @testing-library/react. Teste comportamento do usuario,
+          nao detalhes de implementacao. Inclua testes de acessibilidade basicos.
+      - path: '**/e2e/**'
+        instructions: >
+          Use Playwright para testes E2E. Siga o padrao Page Object Model.
+          Inclua assertions de acessibilidade e testes de fluxo critico.
+
+chat:
+  auto_reply: true
