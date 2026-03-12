@@ -22,9 +22,19 @@
   <link rel="stylesheet" href="css/design-system.css">
   <link rel="stylesheet" href="app.css?v=8">
 
-  <!-- Supabase Config — set via Vercel env vars or /quiz/config.js for local dev -->
-  <script src="config.js"></script>
-  <script type="module" src="js/supabase-client.js"></script>
+  <!-- Supabase Config — loaded from Vercel env vars via /api/quiz-config -->
+  <script>
+    fetch('/api/quiz-config')
+      .then(r => r.json())
+      .then(c => {
+        window.__SUPABASE_URL__ = c.url;
+        window.__SUPABASE_ANON_KEY__ = c.anonKey;
+        const s = document.createElement('script');
+        s.type = 'module';
+        s.src = 'js/supabase-client.js';
+        document.head.appendChild(s);
+      });
+  </script>
 </head>
 <body data-biome="eco">
 
