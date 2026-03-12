@@ -22,12 +22,8 @@
   <link rel="stylesheet" href="css/design-system.css">
   <link rel="stylesheet" href="app.css?v=8">
 
-  <!-- Supabase Config (replace values in Vercel env or inline for dev) -->
-  <script>
-    // These will be replaced by Vercel environment injection or set manually
-    window.__SUPABASE_URL__ = 'https://zhdzqzmnwmvvryezyujt.supabase.co';
-    window.__SUPABASE_ANON_KEY__ = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpoZHpxem1ud212dnJ5ZXp5dWp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzODI3MzAsImV4cCI6MjA4Nzk1ODczMH0.nWkvZZs_K_3KWVJE_Y6H4UZT_jp4PZt_43Zr1htd0es';
-  </script>
+  <!-- Supabase Config — set via Vercel env vars or /quiz/config.js for local dev -->
+  <script src="config.js"></script>
   <script type="module" src="js/supabase-client.js"></script>
 </head>
 <body data-biome="eco">
